@@ -1,0 +1,73 @@
+package jeopardy;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application {
+
+	private static Stage primaryStage;
+    private static Scene mainScene;
+	private static Connection connection;
+	
+	public static void main(String[] args) {
+		launch(args);
+	}
+
+	@Override
+	public void start(Stage stage) throws Exception {
+		establishConnection();
+		
+		primaryStage = stage;
+		MainWindow mainWindow = new MainWindow();
+		
+		// display the stage and scene
+		mainScene = new Scene(mainWindow, 340, 210);
+    	primaryStage.setScene(mainScene);
+    	primaryStage.setTitle("Jeopardy");
+    	primaryStage.show();
+	}
+	
+	// connect to the database
+	private void establishConnection() {
+		
+		try {
+			Class.forName("org.sqlite.JDBC");
+			connection = DriverManager.getConnection("jdbc:sqlite:jeopardy.db");
+			  
+		} catch (Exception e) {
+			System.err.println(e.getClass().getName() + ": " + e.getMessage());
+			System.exit(0); 
+		}
+		
+		System.out.println("Opened database successfully");
+	}
+
+	public static Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	public static void setPrimaryStage(Stage primaryStage) {
+		Main.primaryStage = primaryStage;
+	}
+
+	public static Scene getMainScene() {
+		return mainScene;
+	}
+
+	public void setMainScene(Scene mainScene) {
+		Main.mainScene = mainScene;
+	}
+	
+	public static Connection getConnection() {
+		return connection;
+	}
+
+	public static void setConnection(Connection connection) {
+		Main.connection = connection;
+	}
+	
+}
