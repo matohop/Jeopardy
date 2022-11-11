@@ -12,18 +12,13 @@ import javafx.scene.layout.GridPane;
 
 public class LeaderboardWindow extends GridPane implements Initializer {
 	
-	private Label 	  lblOne, lblTwo, lblThree, lblFour, lblFive, lblSix, lblSeven, lblEight, lblNine, lblTen;
-	private TextField tfOne, tfTwo, tfThree, tfFour, tfFive, tfSix, tfSeven, tfEight, tfNine, tfTen;
-	private Button 	  btnBack;
+	public Label     lblOne, lblTwo, lblThree, lblFour, lblFive, lblSix, lblSeven, lblEight, lblNine, lblTen;
+	public TextField tfOne, tfTwo, tfThree, tfFour, tfFive, tfSix, tfSeven, tfEight, tfNine, tfTen;
+	public Button    btnBack;
 
 	public LeaderboardWindow() {
-		init();
-	}
-	
-	@Override
-	public void init() {
 		
-		// labels and button
+		// Labels and Button
 		lblOne 	 = new Label("#1:");
 		lblTwo 	 = new Label("#2:");
 		lblThree = new Label("#3:");
@@ -36,7 +31,7 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 		lblTen 	 = new Label("#10:");
 		btnBack  = new Button("Back");
 		
-		// text fields
+		// TextFields
 		tfOne 	= new TextField();
 		tfTwo 	= new TextField();
 		tfThree = new TextField();
@@ -48,7 +43,20 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 		tfNine 	= new TextField();
 		tfTen 	= new TextField();
 		
-		// add nodes to gridpane
+		// set alignment/spacing
+		this.setAlignment(Pos.CENTER);
+		this.setPadding(new Insets(11, 12, 11, 12));
+		this.setHgap(5);
+		this.setVgap(5);
+		GridPane.setHalignment(btnBack, HPos.RIGHT);
+				
+		init();
+	}
+	
+	@Override
+	public void init() {
+		
+		// add nodes to GridPane
 		this.add(lblOne, 0, 0);
 		this.add(tfOne, 1, 0);
 		this.add(lblTwo, 0, 1);
@@ -71,24 +79,17 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 		this.add(tfTen, 1, 9);
 		this.add(btnBack, 1, 10);
 		
-		// disable text fields
+		// disable TextFields
 		for (Node child: this.getChildren()) {
 			if (child instanceof TextField)
 				child.setDisable(true);
 		}
-		
-		// alignment settings
-		this.setAlignment(Pos.CENTER);
-		this.setPadding(new Insets(11, 12, 11, 12));
-		this.setHgap(5);
-		this.setVgap(5);
-		GridPane.setHalignment(btnBack, HPos.RIGHT);
-		
-		// button action - back
+
+		// Button action - Back
 		btnBack.setOnAction((ActionEvent e) -> {
 			System.out.println("Back button clicked");
 			
-			// go back to the main window
+			// go back to MainWindow
 			Main.getPrimaryStage().setScene(Main.getMainScene());
 			Main.getPrimaryStage().setTitle("Jeopardy");
 		});

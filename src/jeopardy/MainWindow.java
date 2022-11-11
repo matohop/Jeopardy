@@ -21,28 +21,22 @@ import javafx.scene.layout.HBox;
 
 public class MainWindow extends BorderPane implements Initializer {
 	
-	private Button 	  btnCreateProfile, btnViewLeaderboard, btnStartGame, btnLvAdd;
-	private HBox 	  hBoxCenter, hBoxBottom;
-	private Image 	  imgLogo;
-	private ImageView imgVLogo;
-	private ListView<String> lvPlayers, lvPlayersAdded;
-	private static ObservableList<String> players;
+	public Button btnCreateProfile, btnViewLeaderboard, btnStartGame, btnLvAdd;
+	public HBox hBoxCenter, hBoxBottom;
+	public Image imgLogo;
+	public ImageView imgViewLogo;
+	public ListView<String> lvPlayers, lvPlayersAdded;
+	public static ObservableList<String> players;
 	
 	public MainWindow() {
-		init();
-	}
 
-	@Override
-	public void init() {
+		// Jeopardy logo
+		imgLogo = new Image("jeopardy/images/logo_transparent.png");
+		imgViewLogo = new ImageView(imgLogo);
+		imgViewLogo.setFitWidth(310);
+		imgViewLogo.setFitHeight(40);
 		
-		// buttons
-		btnCreateProfile   = new Button("Create Profile");
-		btnViewLeaderboard = new Button("View Leaderboard");
-		btnStartGame 	   = new Button("Start Game");
-		btnLvAdd 		   = new Button(">");
-		
-		// listviews
-		players = FXCollections.observableArrayList();
+		// ListViews
 		populateLvPlayers();
 		lvPlayers = new ListView<>(players);
 		lvPlayersAdded = new ListView<>();
@@ -51,84 +45,100 @@ public class MainWindow extends BorderPane implements Initializer {
 		lvPlayers.setMaxWidth(130);
 		lvPlayersAdded.setMaxWidth(130);
 		
-		// jeopardy logo
-		imgLogo	 = new Image("jeopardy/images/logo_transparent.png");
-		imgVLogo = new ImageView(imgLogo);
-		imgVLogo.setFitWidth(310);
-		imgVLogo.setFitHeight(40);
+		// Buttons
+		btnCreateProfile   = new Button("Create Profile");
+		btnViewLeaderboard = new Button("View Leaderboard");
+		btnStartGame       = new Button("Start Game");
+		btnLvAdd           = new Button(">");
 		
-		// hbox for listviews
+		// HBox - for ListViews
 		hBoxCenter = new HBox(10);
-		hBoxCenter.getChildren().add(lvPlayers);
-		hBoxCenter.getChildren().add(btnLvAdd);
-		hBoxCenter.getChildren().add(lvPlayersAdded);
 		hBoxCenter.setAlignment(Pos.CENTER);
 		hBoxCenter.setPadding(new Insets(11, 0, 6, 0));
 		
-		// hbox for buttons
+		// HBox - for Buttons
 		hBoxBottom = new HBox(10);
-		hBoxBottom.getChildren().add(btnCreateProfile);
-		hBoxBottom.getChildren().add(btnViewLeaderboard);
-		hBoxBottom.getChildren().add(btnStartGame);
 		hBoxBottom.setAlignment(Pos.CENTER);
 		hBoxBottom.setPadding(new Insets(6, 0, 0, 0));
 		
-		// set borderpane node positions and alignment
-		this.setTop(imgVLogo);
-		this.setCenter(hBoxCenter);
-		this.setBottom(hBoxBottom);
-		this.setPadding(new Insets(11, 0, 11, 0));
-		BorderPane.setAlignment(imgVLogo, Pos.CENTER);
+		// BorderPane alignment/padding
+		BorderPane.setAlignment(imgViewLogo, Pos.CENTER);
 		BorderPane.setAlignment(hBoxCenter, Pos.CENTER);
 		BorderPane.setAlignment(hBoxBottom, Pos.CENTER);
+		this.setPadding(new Insets(11, 0, 11, 0));
 		
-		// button action - create profile
+		init();
+	}
+
+	@Override
+	public void init() {
+		
+		// add ListViews
+		hBoxCenter.getChildren().add(lvPlayers);
+		hBoxCenter.getChildren().add(btnLvAdd);
+		hBoxCenter.getChildren().add(lvPlayersAdded);
+		
+		// add Buttons
+		hBoxBottom.getChildren().add(btnCreateProfile);
+		hBoxBottom.getChildren().add(btnViewLeaderboard);
+		hBoxBottom.getChildren().add(btnStartGame);
+		
+		// add nodes to BorderPane sections
+		this.setTop(imgViewLogo);
+		this.setCenter(hBoxCenter);
+		this.setBottom(hBoxBottom);
+
+		// Button action - Create Profile
 		btnCreateProfile.setOnAction((ActionEvent e) -> {
 			System.out.println("Create Profile button clicked");
 			Main.getPrimaryStage().setScene(new Scene(new ProfileWindow()));
 			Main.getPrimaryStage().setTitle("Profile");
 		});
 		
-		// button action - start game
+		// Button action - Start Game
 		btnStartGame.setOnAction((ActionEvent e) -> {
 			System.out.println("Start Game button clicked");
+			Main.getPrimaryStage().setScene(new Scene(new GameboardWindow()));
+			Main.getPrimaryStage().setTitle("Gameboard");
 		});
 		
-		// button action - view leaderboard
+		// Button action - View Leaderboard
 		btnViewLeaderboard.setOnAction((ActionEvent e) -> {
 			System.out.println("View Leaderboard button clicked");
 			Main.getPrimaryStage().setScene(new Scene(new LeaderboardWindow()));
 			Main.getPrimaryStage().setTitle("Leaderboard");
 		});
 		
-		// button action - ">"
+		// Button action - ">"
 		btnLvAdd.setOnAction((ActionEvent e) -> {
 			System.out.println("Add player button clicked");
 		});
 
-		// listview action - selected item
+		// ListView action - selected item
 		lvPlayers.getSelectionModel().selectedItemProperty().addListener((Observable ov) -> {
 			System.out.println("Selected indices: " + lvPlayers.getSelectionModel().getSelectedIndices());
 			System.out.println("Selected items: " + lvPlayers.getSelectionModel().getSelectedItem());
 		});
 		
-		// listview action - double click item
+		// ListView action - double click item
 		lvPlayers.setOnMouseClicked((MouseEvent me) -> {
 			if (me.getClickCount() == 2) {
 				// retrieve selected player info from database and open in ProfileWindow
 				System.out.println(lvPlayers.getSelectionModel().getSelectedItem() + " double clicked");
 			}
 		});
-
-		
+	
 	} // end init()
 	
+	// query usernames from database and add to ArrayList
 	private void populateLvPlayers() {
 		
+		players = FXCollections.observableArrayList();
+		
 		try {
-			String    sql  = "SELECT userName FROM Players";
+			String sql = "SELECT userName FROM Players";
 			Statement stmt = Main.getConnection().createStatement();
-			ResultSet rs   = stmt.executeQuery(sql);
+			ResultSet rs = stmt.executeQuery(sql);
 			
 			while (rs.next())
 				players.add(rs.getString("userName"));
@@ -136,94 +146,6 @@ public class MainWindow extends BorderPane implements Initializer {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-	}
-
-	public Button getBtnCreateProfile() {
-		return btnCreateProfile; 
-	}
-
-	public void setBtnCreateProfile(Button btnCreateProfile) {
-		this.btnCreateProfile = btnCreateProfile; 
-	}
-
-	public Button getBtnViewLeaderboard() {
-		return btnViewLeaderboard;
-	}
-
-	public void setBtnViewLeaderboard(Button btnViewLeaderboard) {
-		this.btnViewLeaderboard = btnViewLeaderboard;
-	}
-
-	public Button getBtnStartGame() {
-		return btnStartGame;
-	}
-
-	public void setBtnStartGame(Button btnStartGame) {
-		this.btnStartGame = btnStartGame;
-	}
-
-	public Button getBtnLvAdd() {
-		return btnLvAdd;
-	}
-
-	public void setBtnLvAdd(Button btnLvAdd) {
-		this.btnLvAdd = btnLvAdd;
-	}
-
-	public ListView<String> getLvPlayers() {
-		return lvPlayers;
-	}
-
-	public void setLvPlayers(ListView<String> lvPlayersToAdd) {
-		this.lvPlayers = lvPlayersToAdd;
-	}
-
-	public ListView<String> getLvPlayersAdded() {
-		return lvPlayersAdded;
-	}
-
-	public void setLvPlayersAdded(ListView<String> lvPlayersAdded) {
-		this.lvPlayersAdded = lvPlayersAdded;
-	}
-
-	public static ObservableList<String> getPlayers() {
-		return players;
-	}
-
-	public static void setListViewItems(ObservableList<String> players) {
-		MainWindow.players = players;
-	}
-
-	public HBox gethBoxCenter() {
-		return hBoxCenter;
-	}
-
-	public void sethBoxCenter(HBox hBoxCenter) {
-		this.hBoxCenter = hBoxCenter;
-	}
-
-	public HBox gethBoxBottom() {
-		return hBoxBottom;
-	}
-
-	public void sethBoxBottom(HBox hBoxBottom) {
-		this.hBoxBottom = hBoxBottom;
-	}
-
-	public Image getImgLogo() {
-		return imgLogo;
-	}
-
-	public void setImgLogo(Image imgLogo) {
-		this.imgLogo = imgLogo;
-	}
-
-	public ImageView getImgVLogo() {
-		return imgVLogo;
-	}
-
-	public void setImgVLogo(ImageView imgVLogo) {
-		this.imgVLogo = imgVLogo;
 	}
 
 }
