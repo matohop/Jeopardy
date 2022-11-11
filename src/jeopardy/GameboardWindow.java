@@ -24,6 +24,10 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		gridPane = new GridPane();
 		playerUsernameAndScore = new PlayerUsernameAndScore();
 		
+		gridPane.setHgap(3);
+		gridPane.setVgap(3);
+		this.setPadding(new Insets(3, 3, 3, 3));
+		
 		init();
 	}
 
