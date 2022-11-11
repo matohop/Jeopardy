@@ -36,7 +36,7 @@ public class Main extends Application {
 		
 		try {
 			Class.forName("org.sqlite.JDBC");
-			connection = DriverManager.getConnection("jdbc:sqlite:jeopardy.db");
+			connection = DriverManager.getConnection("jdbc:sqlite:src/resources/jeopardy.db");
 			  
 		} catch (Exception e) {
 			System.err.println(e.getClass().getName() + ": " + e.getMessage());
