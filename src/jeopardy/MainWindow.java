@@ -31,7 +31,7 @@ public class MainWindow extends BorderPane implements Initializer {
 	public MainWindow() {
 
 		// Jeopardy logo
-		imgLogo = new Image("jeopardy/images/logo_transparent.png");
+		imgLogo = new Image("images/logo_transparent.png");
 		imgViewLogo = new ImageView(imgLogo);
 		imgViewLogo.setFitWidth(310);
 		imgViewLogo.setFitHeight(40);
