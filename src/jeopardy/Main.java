@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	private static Stage primaryStage;
-    private static Scene mainScene;
+	private static Scene mainScene;
 	private static Connection connection;
 	
 	public static void main(String[] args) {
@@ -19,6 +19,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		
 		establishConnection();
 		
 		primaryStage = stage;
@@ -26,9 +27,9 @@ public class Main extends Application {
 		
 		// display the stage and scene
 		mainScene = new Scene(mainWindow, 340, 210);
-    	primaryStage.setScene(mainScene);
-    	primaryStage.setTitle("Jeopardy");
-    	primaryStage.show();
+		primaryStage.setScene(mainScene);
+		primaryStage.setTitle("Jeopardy");
+		primaryStage.show();
 	}
 	
 	// connect to the database
