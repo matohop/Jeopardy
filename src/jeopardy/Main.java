@@ -20,13 +20,11 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		establishConnection();
-		
 		primaryStage = stage;
-		MainWindow mainWindow = new MainWindow();
+		establishConnection(); // to database
 		
 		// display the stage and scene
-		mainScene = new Scene(mainWindow, 340, 210);
+		mainScene = new Scene(new MainWindow(), 340, 210);
 		primaryStage.setScene(mainScene);
 		primaryStage.setTitle("Jeopardy");
 		primaryStage.show();
