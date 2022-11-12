@@ -69,7 +69,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		PlayerUsernameAndScore() {
 			
 			lblPlayerUsername = new Label[3]; // hardcoded size for testing
-			txtPlayerScore    = new Text[3];  // hardcoded size for testing
+			txtPlayerScore = new Text[3];  // hardcoded size for testing
 			
 			// alignment/padding/spacing
 			this.setAlignment(Pos.CENTER);
@@ -86,7 +86,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			for (int i = 0; i < lblPlayerUsername.length; i++) {
 				
 				lblPlayerUsername[i] = new Label("Test"); // hardcoded username for testing
-				txtPlayerScore[i]    = new Text("$" + Integer.toString(0)); // hardcoded balance for testing
+				txtPlayerScore[i] = new Text("$" + Integer.toString(0)); // hardcoded balance for testing
 				
 				// set font/color
 				lblPlayerUsername[i].setFont(Font.font("ITC Korinna", FontWeight.BOLD, 20));

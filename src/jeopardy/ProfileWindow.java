@@ -21,19 +21,19 @@ public class ProfileWindow extends GridPane implements Initializer {
 	public ProfileWindow() {
 		
 		// Labels
-		lblUsername        = new Label("Username:");
-		lblHighScore       = new Label("High Score:");
+		lblUsername = new Label("Username:");
+		lblHighScore = new Label("High Score:");
 		lblnNumGamesPlayed = new Label("Games Played:");
 		lblAnsweredCorrect = new Label("Answered Correct:");
 		
 		// TextFields
-		tfUsername        = new TextField();
-		tfHighScore       = new TextField();
-		tfNumGamesPlayed  = new TextField();
+		tfUsername = new TextField();
+		tfHighScore = new TextField();
+		tfNumGamesPlayed = new TextField();
 		tfAnsweredCorrect = new TextField();
 		
 		// Buttons
-		btnSave   = new Button("Save");
+		btnSave = new Button("Save");
 		btnCancel = new Button("Cancel");
 		
 		// alignment/spacing

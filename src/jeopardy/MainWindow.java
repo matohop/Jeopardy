@@ -46,10 +46,10 @@ public class MainWindow extends BorderPane implements Initializer {
 		lvPlayersAdded.setMaxWidth(130);
 		
 		// Buttons
-		btnCreateProfile   = new Button("Create Profile");
+		btnCreateProfile = new Button("Create Profile");
 		btnViewLeaderboard = new Button("View Leaderboard");
-		btnStartGame       = new Button("Start Game");
-		btnLvAdd           = new Button(">");
+		btnStartGame = new Button("Start Game");
+		btnLvAdd = new Button(">");
 		
 		// HBox - for ListViews
 		hBoxCenter = new HBox(10);

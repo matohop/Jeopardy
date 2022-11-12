@@ -45,28 +45,16 @@ public class Main extends Application {
 		System.out.println("Opened database successfully");
 	}
 
-	public static Stage getPrimaryStage() {
-		return primaryStage;
-	}
+	public static Stage getPrimaryStage() { return primaryStage; }
 
-	public static void setPrimaryStage(Stage primaryStage) {
-		Main.primaryStage = primaryStage;
-	}
+	public static void setPrimaryStage(Stage primaryStage) { Main.primaryStage = primaryStage; }
 
-	public static Scene getMainScene() {
-		return mainScene;
-	}
+	public static Scene getMainScene() { return mainScene; }
 
-	public void setMainScene(Scene mainScene) {
-		Main.mainScene = mainScene;
-	}
+	public void setMainScene(Scene mainScene) { Main.mainScene = mainScene; }
 	
-	public static Connection getConnection() {
-		return connection;
-	}
+	public static Connection getConnection() { return connection; }
 
-	public static void setConnection(Connection connection) {
-		Main.connection = connection;
-	}
+	public static void setConnection(Connection connection) { Main.connection = connection; }
 	
 }
