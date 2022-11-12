@@ -69,7 +69,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		PlayerUsernameAndScore() {
 			
 			lblPlayerUsername = new Label[3]; // hardcoded size for testing
-			txtPlayerScore = new Text[3];  // hardcoded size for testing
+			txtPlayerScore = new Text[3]; // hardcoded size for testing
 			
 			// alignment/padding/spacing
 			this.setAlignment(Pos.CENTER);

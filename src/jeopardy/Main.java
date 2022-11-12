@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
 	private static Stage primaryStage;
-	private static Scene mainScene;
+	private static Scene primaryScene;
 	private static Connection connection;
 	
 	public static void main(String[] args) {
@@ -24,8 +24,8 @@ public class Main extends Application {
 		establishConnection(); // to database
 		
 		// display the stage and scene
-		mainScene = new Scene(new MainWindow(), 340, 210);
-		primaryStage.setScene(mainScene);
+		primaryScene = new Scene(new MainWindow(), 340, 210);
+		primaryStage.setScene(primaryScene);
 		primaryStage.setTitle("Jeopardy");
 		primaryStage.show();
 	}
@@ -49,9 +49,9 @@ public class Main extends Application {
 
 	public static void setPrimaryStage(Stage primaryStage) { Main.primaryStage = primaryStage; }
 
-	public static Scene getMainScene() { return mainScene; }
+	public static Scene getPrimaryScene() { return primaryScene; }
 
-	public void setMainScene(Scene mainScene) { Main.mainScene = mainScene; }
+	public void setPrimaryScene(Scene mainScene) { Main.primaryScene = mainScene; }
 	
 	public static Connection getConnection() { return connection; }
 
