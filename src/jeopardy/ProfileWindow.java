@@ -86,18 +86,19 @@ public class ProfileWindow extends GridPane implements Initializer {
 				}
 			}
 			
-			backToMainScene();
+			gotoPrimaryScene();
 		});
 		
 		// Button action - Cancel
 		btnCancel.setOnAction((ActionEvent e) -> {
+			
 			System.out.println("Cancel button clicked");
-			backToMainScene();
+			gotoPrimaryScene();
 		});
 		
 	} // end init()
 
-	private void backToMainScene() {
+	private void gotoPrimaryScene() {
 		Main.getPrimaryStage().setScene(Main.getPrimaryScene());
 		Main.getPrimaryStage().setTitle("Jeopardy");
 	}

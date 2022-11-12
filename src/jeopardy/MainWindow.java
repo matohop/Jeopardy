@@ -74,14 +74,10 @@ public class MainWindow extends BorderPane implements Initializer {
 	public void init() {
 		
 		// add ListViews
-		hBoxCenter.getChildren().add(lvPlayers);
-		hBoxCenter.getChildren().add(btnLvAdd);
-		hBoxCenter.getChildren().add(lvPlayersAdded);
+		hBoxCenter.getChildren().addAll(lvPlayers, btnLvAdd, lvPlayersAdded);
 		
 		// add Buttons
-		hBoxBottom.getChildren().add(btnCreateProfile);
-		hBoxBottom.getChildren().add(btnViewLeaderboard);
-		hBoxBottom.getChildren().add(btnStartGame);
+		hBoxBottom.getChildren().addAll(btnCreateProfile, btnViewLeaderboard, btnStartGame);
 		
 		// add nodes to BorderPane sections
 		this.setTop(imgViewLogo);
@@ -90,6 +86,7 @@ public class MainWindow extends BorderPane implements Initializer {
 
 		// Button action - Create Profile
 		btnCreateProfile.setOnAction((ActionEvent e) -> {
+			
 			System.out.println("Create Profile button clicked");
 			Main.getPrimaryStage().setScene(new Scene(new ProfileWindow()));
 			Main.getPrimaryStage().setTitle("Profile");
@@ -97,6 +94,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		// Button action - Start Game
 		btnStartGame.setOnAction((ActionEvent e) -> {
+			
 			System.out.println("Start Game button clicked");
 			Main.getPrimaryStage().setScene(new Scene(new GameboardWindow()));
 			Main.getPrimaryStage().setTitle("Gameboard");
@@ -104,6 +102,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		// Button action - View Leaderboard
 		btnViewLeaderboard.setOnAction((ActionEvent e) -> {
+			
 			System.out.println("View Leaderboard button clicked");
 			Main.getPrimaryStage().setScene(new Scene(new LeaderboardWindow()));
 			Main.getPrimaryStage().setTitle("Leaderboard");
@@ -111,17 +110,20 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		// Button action - ">"
 		btnLvAdd.setOnAction((ActionEvent e) -> {
+			
 			System.out.println("Add player button clicked");
 		});
 
 		// ListView action - selected item
 		lvPlayers.getSelectionModel().selectedItemProperty().addListener((Observable ov) -> {
+			
 			System.out.println("Selected indices: " + lvPlayers.getSelectionModel().getSelectedIndices());
 			System.out.println("Selected items: " + lvPlayers.getSelectionModel().getSelectedItem());
 		});
 		
 		// ListView action - double click item
 		lvPlayers.setOnMouseClicked((MouseEvent me) -> {
+			
 			if (me.getClickCount() == 2) {
 				// retrieve selected player info from database and open in ProfileWindow
 				System.out.println(lvPlayers.getSelectionModel().getSelectedItem() + " double clicked");
