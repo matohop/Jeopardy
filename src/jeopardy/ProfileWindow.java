@@ -14,23 +14,18 @@ import javafx.scene.layout.GridPane;
 
 public class ProfileWindow extends GridPane implements Initializer {
 
-	public Label     lblUsername, lblHighScore, lblnNumGamesPlayed, lblAnsweredCorrect;
-	public TextField tfUsername, tfHighScore, tfNumGamesPlayed, tfAnsweredCorrect;
+	public Label     lblUsername;
+	public TextField tfUsername;
 	public Button    btnSave, btnCancel;
+	public String    username;
 	
 	public ProfileWindow() {
 		
-		// Labels
+		// Label
 		lblUsername = new Label("Username:");
-		lblHighScore = new Label("High Score:");
-		lblnNumGamesPlayed = new Label("Games Played:");
-		lblAnsweredCorrect = new Label("Answered Correct:");
 		
-		// TextFields
+		// TextField
 		tfUsername = new TextField();
-		tfHighScore = new TextField();
-		tfNumGamesPlayed = new TextField();
-		tfAnsweredCorrect = new TextField();
 		
 		// Buttons
 		btnSave = new Button("Save");
@@ -49,20 +44,9 @@ public class ProfileWindow extends GridPane implements Initializer {
 	@Override
 	public void init() {
 		
-		// disable these TextFields
-		tfHighScore.setDisable(true);
-		tfNumGamesPlayed.setDisable(true);
-		tfAnsweredCorrect.setDisable(true);
-		
 		// add nodes to GriPane
 		this.add(lblUsername, 0, 0);
 		this.add(tfUsername, 1, 0);
-		this.add(lblHighScore, 0, 1);
-		this.add(tfHighScore, 1, 1);
-		this.add(lblnNumGamesPlayed, 0, 2);
-		this.add(tfNumGamesPlayed, 1, 2);
-		this.add(lblAnsweredCorrect, 0, 3);
-		this.add(tfAnsweredCorrect, 1, 3);
 		this.add(btnCancel, 0, 4);
 		this.add(btnSave, 1, 4);
 
@@ -76,7 +60,7 @@ public class ProfileWindow extends GridPane implements Initializer {
 				
 				// insert username into database
 				try {
-					String sql = "INSERT INTO Players(userName) VALUES(?)";
+					String sql = "INSERT INTO Players(user_name) VALUES(?)";
 					PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
 					pstmt.setString(1, username);
 					pstmt.executeUpdate();

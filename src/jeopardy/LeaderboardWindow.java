@@ -80,7 +80,7 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 		this.add(btnBack, 1, 10);
 		
 		// disable TextFields
-		for (Node child: this.getChildren()) {
+		for (Node child : this.getChildren()) {
 			if (child instanceof TextField)
 				child.setDisable(true);
 		}

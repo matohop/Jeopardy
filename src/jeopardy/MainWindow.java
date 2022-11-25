@@ -125,8 +125,10 @@ public class MainWindow extends BorderPane implements Initializer {
 		lvPlayers.setOnMouseClicked((MouseEvent me) -> {
 			
 			if (me.getClickCount() == 2) {
-				// retrieve selected player info from database and open in ProfileWindow
+				// retrieve selected player info from database and open in ViewEditProfileWindow
 				System.out.println(lvPlayers.getSelectionModel().getSelectedItem() + " double clicked");
+				Main.getPrimaryStage().setScene(new Scene(new ViewEditProfileWindow(lvPlayers.getSelectionModel().getSelectedItem())));
+				Main.getPrimaryStage().setTitle("View/Edit Profile");
 			}
 		});
 	
@@ -138,14 +140,16 @@ public class MainWindow extends BorderPane implements Initializer {
 		players = FXCollections.observableArrayList();
 		
 		try {
-			String sql = "SELECT userName FROM Players";
+			
+			String sql = "SELECT user_name FROM Players";
 			Statement stmt = Main.getConnection().createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while (rs.next())
-				players.add(rs.getString("userName"));
+				players.add(rs.getString("user_name"));
 			
 		} catch (SQLException e) {
+			
 			System.out.println(e.getMessage());
 		}
 	}

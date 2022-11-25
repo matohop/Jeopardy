@@ -4,11 +4,9 @@ public class Question {
 	
 	private int questionID, value;
 	private String category, clue, answer;
-	private Type type;
+	private String type;
 	
-	enum Type { REG, DD, FJ }
-	
-	public Question(int questionID, String category, String clue, String answer, int value, Type type) {
+	public Question(int questionID, String category, String clue, String answer, int value, String type) {
 		
 		this.questionID = questionID;
 		this.category = category;
@@ -38,8 +36,8 @@ public class Question {
 
 	public void setValue(int value) { this.value = value; }
 
-	public Type getType() { return type; }
+	public String getType() { return type; }
 
-	public void setType(Type type) { this.type = type; }
+	public void setType(String type) { this.type = type; }
 
 }
