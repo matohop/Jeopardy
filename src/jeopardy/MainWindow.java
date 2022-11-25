@@ -37,6 +37,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		imgViewLogo.setFitHeight(40);
 		
 		// ListViews
+		players = FXCollections.observableArrayList();
 		populateLvPlayers();
 		lvPlayers = new ListView<>(players);
 		lvPlayersAdded = new ListView<>();
@@ -132,18 +133,19 @@ public class MainWindow extends BorderPane implements Initializer {
 			}
 		});
 	
-	} // end init()
+	} // end init
 	
 	// query usernames from database and add to ArrayList
-	private void populateLvPlayers() {
-		
-		players = FXCollections.observableArrayList();
+	public static void populateLvPlayers() {
 		
 		try {
 			
-			String sql = "SELECT user_name FROM Players";
+			// empty the ArrayList
+			players.removeAll(players);
+			
+			String    sql  = "SELECT user_name FROM Players";
 			Statement stmt = Main.getConnection().createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs   = stmt.executeQuery(sql);
 			
 			while (rs.next())
 				players.add(rs.getString("user_name"));

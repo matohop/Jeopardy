@@ -34,11 +34,11 @@ public class QuestionWindow extends VBox implements Initializer {
 		txtPlayerBuzzed = new Text();
 		txtPlayerBuzzed.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14));
 
-		tfAnswerField = new TextField();
-		btnOK = new Button("OK");
+		tfAnswerField   = new TextField();
+		btnOK           = new Button("OK");
 		imgViewQuestion = new ImageView(new Image("resources/images/trebek_happy.jpg"));
-		progressBar = new ProgressBar(0);
-		timer = new Timeline();
+		progressBar     = new ProgressBar(0);
+		timer           = new Timeline();
 		
 		this.setPadding(new Insets(5));
 		
@@ -124,7 +124,7 @@ public class QuestionWindow extends VBox implements Initializer {
 			}
 		});
 		
-	} // end init()
+	} // end init
 	
 	// enable these nodes when a player buzzes in
 	public void enableNodes() {

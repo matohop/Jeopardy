@@ -16,9 +16,10 @@ public class ViewEditProfileWindow extends ProfileWindow {
 	public TextField tfHighScore, tfNumGamesPlayed, tfAnsweredCorrect;
 	public Button    btnEdit;
 	
-	public ViewEditProfileWindow(String username) {
+	public ViewEditProfileWindow(String _username) {
 		
-		tfUsername.setText(username);
+		tfUsername.setText(_username);
+		username = tfUsername.getText();
 		
 		lblHighScore = new Label("High Score:");
 		lblnNumGamesPlayed = new Label("Games Played:");
@@ -30,17 +31,18 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		
 		btnEdit = new Button("Edit");
 		
-		_init(username);
+		_init(_username);
 		
 	}
 
-	public void _init(String username) {
+	public void _init(String _username) {
 		
-		// disable these TextFields
+		// disable these nodes
 		tfUsername.setDisable(true);
 		tfHighScore.setDisable(true);
 		tfNumGamesPlayed.setDisable(true);
 		tfAnsweredCorrect.setDisable(true);
+		btnSave.setDisable(true);
 
 		this.add(lblHighScore, 0, 1);
 		this.add(tfHighScore, 1, 1);
@@ -58,7 +60,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 			           + "WHERE user_name = ?";
 			
 			PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
-			pstmt.setString(1, username);
+			pstmt.setString(1, _username);
 			ResultSet rs = pstmt.executeQuery();
 			
 			tfHighScore.setText(Integer.toString(rs.getInt("high_score")));
@@ -74,7 +76,8 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		btnEdit.setOnAction((ActionEvent e) -> {
 			
 			tfUsername.setDisable(false);
+			btnSave.setDisable(false);
 		});
 
-	} // end _init()
+	} // end _init
 }

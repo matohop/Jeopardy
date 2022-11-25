@@ -3,7 +3,7 @@ package jeopardy;
 public class Player {
 	
 	private String username;
-	private int playerID, highScore, numGamesPlayed, numQuestionsCorrect;
+	private int    playerID, highScore, numGamesPlayed, numQuestionsCorrect;
 	
 	public Player(int playerID, String username, int highScore, int numGamesPlayed, int numQuestionsCorrect) {
 		

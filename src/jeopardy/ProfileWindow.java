@@ -1,6 +1,7 @@
 package jeopardy;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javafx.event.ActionEvent;
@@ -21,15 +22,11 @@ public class ProfileWindow extends GridPane implements Initializer {
 	
 	public ProfileWindow() {
 		
-		// Label
 		lblUsername = new Label("Username:");
-		
-		// TextField
-		tfUsername = new TextField();
-		
-		// Buttons
+		tfUsername  = new TextField();
 		btnSave = new Button("Save");
 		btnCancel = new Button("Cancel");
+		username = "";
 		
 		// alignment/spacing
 		this.setAlignment(Pos.CENTER);
@@ -52,24 +49,67 @@ public class ProfileWindow extends GridPane implements Initializer {
 
 		// Button action - Save
 		btnSave.setOnAction((ActionEvent e) -> {
-			String username = tfUsername.getText();
 			
-			if (!username.equals("")) {
-				MainWindow.players.add(username);
-				System.out.println(username + " added");
+			String newUsername = tfUsername.getText();
+			
+			// creating a new profile
+			if (username.equals("")) {
 				
-				// insert username into database
+				// if username not empty and doesn't exist
+				if (!newUsername.equals("") && !MainWindow.players.contains(newUsername)) {
+					
+					// INSERT username into database
+					try {
+						
+						String sql = "INSERT INTO Players(user_name) VALUES(?)";
+						PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
+						pstmt.setString(1, newUsername);
+						pstmt.executeUpdate();
+						
+						System.out.println(newUsername + " added to database");
+						
+					} catch (SQLException sqlex) {
+						
+						System.out.println(sqlex.getMessage());
+					}
+				}
+			
+			// editing/updating existing profile
+			} else if (!newUsername.equals("") && !MainWindow.players.contains(newUsername)) {
+				
+				// UPDATE username in database
 				try {
-					String sql = "INSERT INTO Players(user_name) VALUES(?)";
+					
+					// retrieve playerID to be updated
+					String sql = "SELECT player_ID " 
+					           + "FROM Players "
+					           + "WHERE user_name = ?";
+					
 					PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
 					pstmt.setString(1, username);
+					ResultSet rs = pstmt.executeQuery();
+					int playerID = rs.getInt("player_ID");
+					
+					// update using playerID
+					sql = "UPDATE Players SET user_name = ? "
+					    + "WHERE player_ID = ?";
+					
+					pstmt = Main.getConnection().prepareStatement(sql);
+					pstmt.setString(1, newUsername);
+					pstmt.setInt(2, playerID);
 					pstmt.executeUpdate();
 					
-				} catch(SQLException sqlex) {
+					System.out.println("player_ID: "      + playerID + 
+					                   ", Old username: " + username +
+					                   ", New username: " + newUsername);
+					
+				} catch (SQLException sqlex) {
+					
 					System.out.println(sqlex.getMessage());
 				}
 			}
 			
+			MainWindow.populateLvPlayers();
 			gotoPrimaryScene();
 		});
 		
@@ -80,9 +120,10 @@ public class ProfileWindow extends GridPane implements Initializer {
 			gotoPrimaryScene();
 		});
 		
-	} // end init()
+	} // end init
 
 	private void gotoPrimaryScene() {
+
 		Main.getPrimaryStage().setScene(Main.getPrimaryScene());
 		Main.getPrimaryStage().setTitle("Jeopardy");
 	}

@@ -2,7 +2,7 @@ package jeopardy;
 
 public class Question {
 	
-	private int questionID, value;
+	private int    questionID, value;
 	private String category, clue, answer;
 	private String type;
 	

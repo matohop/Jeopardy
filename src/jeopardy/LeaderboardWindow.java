@@ -95,6 +95,6 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 			Main.getPrimaryStage().setTitle("Jeopardy");
 		});
 		
-	} // end init()
+	} // end init
 
 }
