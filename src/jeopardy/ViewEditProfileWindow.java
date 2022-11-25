@@ -54,7 +54,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		try {
 			
 			String sql = "SELECT user_name, high_score, num_games_played, num_questions_correct " 
-					   + "FROM Players "
+			           + "FROM Players "
 					   + "WHERE user_name = ?";
 			
 			PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
