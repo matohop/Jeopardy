@@ -21,12 +21,12 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		tfUsername.setText(_username);
 		username = tfUsername.getText();
 		
-		lblHighScore = new Label("High Score:");
+		lblHighScore       = new Label("High Score:");
 		lblnNumGamesPlayed = new Label("Games Played:");
 		lblAnsweredCorrect = new Label("Answered Correct:");
 
-		tfHighScore = new TextField();
-		tfNumGamesPlayed = new TextField();
+		tfHighScore       = new TextField();
+		tfNumGamesPlayed  = new TextField();
 		tfAnsweredCorrect = new TextField();
 		
 		btnEdit = new Button("Edit");

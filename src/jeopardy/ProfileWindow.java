@@ -24,9 +24,9 @@ public class ProfileWindow extends GridPane implements Initializer {
 		
 		lblUsername = new Label("Username:");
 		tfUsername  = new TextField();
-		btnSave = new Button("Save");
-		btnCancel = new Button("Cancel");
-		username = "";
+		btnSave     = new Button("Save");
+		btnCancel   = new Button("Cancel");
+		username    = "";
 		
 		// alignment/spacing
 		this.setAlignment(Pos.CENTER);
