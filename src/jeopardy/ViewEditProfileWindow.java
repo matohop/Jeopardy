@@ -86,7 +86,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		// Button action - Delete
 		btnDelete.setOnAction((ActionEvent e) -> {
 			try {
-
+				
 				// get playerID to delete
                 String sql = "SELECT player_ID "
                            + "FROM Players "
@@ -104,6 +104,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 
                 System.out.println(_username + " removed from database");
                 
+                // refresh the ListView and go back to MainWindow
                 MainWindow.populateLvPlayers();
                 gotoPrimaryScene();
 
