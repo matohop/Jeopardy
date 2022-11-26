@@ -14,7 +14,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 	
 	public Label     lblHighScore, lblnNumGamesPlayed, lblAnsweredCorrect;
 	public TextField tfHighScore, tfNumGamesPlayed, tfAnsweredCorrect;
-	public Button    btnEdit;
+	public Button    btnEdit, btnDelete;
 	
 	public ViewEditProfileWindow(String _username) {
 		
@@ -29,7 +29,8 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		tfNumGamesPlayed  = new TextField();
 		tfAnsweredCorrect = new TextField();
 		
-		btnEdit = new Button("Edit");
+		btnEdit   = new Button("Edit");
+		btnDelete = new Button("Delete");
 		
 		_init(_username);
 		
@@ -43,6 +44,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		tfNumGamesPlayed.setDisable(true);
 		tfAnsweredCorrect.setDisable(true);
 		btnSave.setDisable(true);
+		btnDelete.setDisable(true);
 
 		this.add(lblHighScore, 0, 1);
 		this.add(tfHighScore, 1, 1);
@@ -51,6 +53,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		this.add(lblAnsweredCorrect, 0, 3);
 		this.add(tfAnsweredCorrect, 1, 3);
 		this.add(btnEdit, 2, 4);
+		this.add(btnDelete, 2, 0);
 		
 		// query player info from database into TextFields
 		try {
@@ -77,6 +80,38 @@ public class ViewEditProfileWindow extends ProfileWindow {
 			
 			tfUsername.setDisable(false);
 			btnSave.setDisable(false);
+			btnDelete.setDisable(false);
+		});
+		
+		// Button action - Delete
+		btnDelete.setOnAction((ActionEvent e) -> {
+			try {
+
+				// get playerID to delete
+                String sql = "SELECT player_ID "
+                           + "FROM Players "
+                           + "WHERE user_name = ?";
+                
+                PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
+                pstmt.setString(1, _username);
+                ResultSet rs = pstmt.executeQuery();
+                int playerID = rs.getInt("player_ID");
+
+                // delete the player from database
+                sql = "DELETE FROM Players WHERE player_ID = " + playerID;
+                pstmt = Main.getConnection().prepareStatement(sql);
+                pstmt.executeUpdate();
+
+                System.out.println(_username + " removed from database");
+                
+                MainWindow.populateLvPlayers();
+                gotoPrimaryScene();
+
+            } catch (SQLException sqlex) {
+
+                System.out.println(sqlex.getMessage());
+            }
+			
 		});
 
 	} // end _init

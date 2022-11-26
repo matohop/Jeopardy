@@ -122,7 +122,7 @@ public class ProfileWindow extends GridPane implements Initializer {
 		
 	} // end init
 
-	private void gotoPrimaryScene() {
+	public void gotoPrimaryScene() {
 
 		Main.getPrimaryStage().setScene(Main.getPrimaryScene());
 		Main.getPrimaryStage().setTitle("Jeopardy");
