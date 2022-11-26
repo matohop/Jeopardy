@@ -125,7 +125,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		});
 		
 		// Button action - "<"
-		btnLvAdd.setOnAction((ActionEvent e) -> {
+		btnLvRemove.setOnAction((ActionEvent e) -> {
 			
 			System.out.println("Remove player button clicked");
 		});
