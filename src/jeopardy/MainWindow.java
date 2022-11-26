@@ -18,11 +18,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class MainWindow extends BorderPane implements Initializer {
 	
-	public Button btnCreateProfile, btnViewLeaderboard, btnStartGame, btnLvAdd;
+	public Button btnCreateProfile, btnViewLeaderboard, btnStartGame, btnLvAdd, btnLvRemove;
 	public HBox hBoxCenter, hBoxBottom;
+	public VBox vBoxLvButtons;
 	public Image imgLogo;
 	public ImageView imgViewLogo;
 	public ListView<String> lvPlayers, lvPlayersAdded;
@@ -51,6 +53,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		btnViewLeaderboard = new Button("View Leaderboard");
 		btnStartGame = new Button("Start Game");
 		btnLvAdd = new Button(">");
+		btnLvRemove = new Button("<");
 		
 		// HBox - for ListViews
 		hBoxCenter = new HBox(10);
@@ -61,6 +64,9 @@ public class MainWindow extends BorderPane implements Initializer {
 		hBoxBottom = new HBox(10);
 		hBoxBottom.setAlignment(Pos.CENTER);
 		hBoxBottom.setPadding(new Insets(6, 0, 0, 0));
+		
+		vBoxLvButtons = new VBox(10);
+		vBoxLvButtons.setAlignment(Pos.CENTER);
 		
 		// BorderPane alignment/padding
 		BorderPane.setAlignment(imgViewLogo, Pos.CENTER);
@@ -74,10 +80,13 @@ public class MainWindow extends BorderPane implements Initializer {
 	@Override
 	public void init() {
 		
-		// add ListViews
-		hBoxCenter.getChildren().addAll(lvPlayers, btnLvAdd, lvPlayersAdded);
+		// add Buttons to VBox
+		vBoxLvButtons.getChildren().addAll(btnLvAdd, btnLvRemove);
 		
-		// add Buttons
+		// add ListViews and VBox to HBox
+		hBoxCenter.getChildren().addAll(lvPlayers, vBoxLvButtons, lvPlayersAdded);
+		
+		// add bottom Buttons
 		hBoxBottom.getChildren().addAll(btnCreateProfile, btnViewLeaderboard, btnStartGame);
 		
 		// add nodes to BorderPane sections
@@ -113,6 +122,12 @@ public class MainWindow extends BorderPane implements Initializer {
 		btnLvAdd.setOnAction((ActionEvent e) -> {
 			
 			System.out.println("Add player button clicked");
+		});
+		
+		// Button action - "<"
+		btnLvAdd.setOnAction((ActionEvent e) -> {
+			
+			System.out.println("Remove player button clicked");
 		});
 
 		// ListView action - selected item
