@@ -55,16 +55,17 @@ public class MainWindow extends BorderPane implements Initializer {
 		btnLvAdd = new Button(">");
 		btnLvRemove = new Button("<");
 		
-		// HBox - for ListViews
+		// HBox - for ListViews and VBox
 		hBoxCenter = new HBox(10);
 		hBoxCenter.setAlignment(Pos.CENTER);
 		hBoxCenter.setPadding(new Insets(11, 0, 6, 0));
 		
-		// HBox - for Buttons
+		// HBox - for bottom Buttons
 		hBoxBottom = new HBox(10);
 		hBoxBottom.setAlignment(Pos.CENTER);
 		hBoxBottom.setPadding(new Insets(6, 0, 0, 0));
 		
+		// VBox - for "<" and ">" Buttons
 		vBoxLvButtons = new VBox(10);
 		vBoxLvButtons.setAlignment(Pos.CENTER);
 		
@@ -141,6 +142,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		lvPlayers.setOnMouseClicked((MouseEvent me) -> {
 			
 			if (me.getClickCount() == 2) {
+				
 				// retrieve selected player info from database and open in ViewEditProfileWindow
 				System.out.println(lvPlayers.getSelectionModel().getSelectedItem() + " double clicked");
 				Main.getPrimaryStage().setScene(new Scene(new ViewEditProfileWindow(lvPlayers.getSelectionModel().getSelectedItem())));
