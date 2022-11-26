@@ -85,34 +85,34 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		
 		// Button action - Delete
 		btnDelete.setOnAction((ActionEvent e) -> {
+			
 			try {
 				
 				// get playerID to delete
-                String sql = "SELECT player_ID "
-                           + "FROM Players "
-                           + "WHERE user_name = ?";
-                
-                PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
-                pstmt.setString(1, _username);
-                ResultSet rs = pstmt.executeQuery();
-                int playerID = rs.getInt("player_ID");
-
-                // delete the player from database
-                sql = "DELETE FROM Players WHERE player_ID = " + playerID;
-                pstmt = Main.getConnection().prepareStatement(sql);
-                pstmt.executeUpdate();
-
-                System.out.println(_username + " removed from database");
-                
-                // refresh the ListView and go back to MainWindow
-                MainWindow.populateLvPlayers();
-                gotoPrimaryScene();
-
-            } catch (SQLException sqlex) {
-
-                System.out.println(sqlex.getMessage());
-            }
-			
+				String sql = "SELECT player_ID "
+				           + "FROM Players "
+				           + "WHERE user_name = ?";
+				
+				PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
+				pstmt.setString(1, _username);
+				ResultSet rs = pstmt.executeQuery();
+				int playerID = rs.getInt("player_ID");
+				
+				// delete the player from database
+				sql = "DELETE FROM Players WHERE player_ID = " + playerID;
+				pstmt = Main.getConnection().prepareStatement(sql);
+				pstmt.executeUpdate();
+				
+				System.out.println(_username + " removed from database");
+				
+				// refresh the ListView and go back to MainWindow
+				MainWindow.populateLvPlayers();
+				gotoPrimaryScene();
+				
+			} catch (SQLException sqlex) {
+				
+				System.out.println(sqlex.getMessage());
+			}
 		});
 
 	} // end _init
