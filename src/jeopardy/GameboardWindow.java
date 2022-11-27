@@ -111,21 +111,21 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	
 	// get 6 random and unique categories
 	private void getRandomCategories() {
-		
+
 		try {
 			
 			String sql = "SELECT category_name "
 			           + "FROM Categories "
-					   + "ORDER BY random() "
+			           + "ORDER BY random() "
 			           + "LIMIT 6";
 			
 			Statement stmt = Main.getConnection().createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			ResultSet rs   = stmt.executeQuery(sql);
 			
 			System.out.print("6 random and unique categories: ");
 			
 			while (rs.next()) {
-				
+			
 				categories.add(rs.getString("category_name"));
 			}
 			
