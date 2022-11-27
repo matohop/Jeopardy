@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -98,24 +97,21 @@ public class MainWindow extends BorderPane implements Initializer {
 
 		// Button action - Create Profile
 		btnCreateProfile.setOnAction((ActionEvent e) -> {
-			
-			System.out.println("Create Profile button clicked");
+
 			Main.getPrimaryStage().setScene(new Scene(new ProfileWindow()));
 			Main.getPrimaryStage().setTitle("Profile");
 		});
 		
 		// Button action - Start Game
 		btnStartGame.setOnAction((ActionEvent e) -> {
-			
-			System.out.println("Start Game button clicked");
+
 			Main.getPrimaryStage().setScene(new Scene(new GameboardWindow()));
 			Main.getPrimaryStage().setTitle("Gameboard");
 		});
 		
 		// Button action - View Leaderboard
 		btnViewLeaderboard.setOnAction((ActionEvent e) -> {
-			
-			System.out.println("View Leaderboard button clicked");
+
 			Main.getPrimaryStage().setScene(new Scene(new LeaderboardWindow()));
 			Main.getPrimaryStage().setTitle("Leaderboard");
 		});
@@ -158,7 +154,6 @@ public class MainWindow extends BorderPane implements Initializer {
 			if (me.getClickCount() == 2) {
 				
 				// retrieve selected player info from database and open in ViewEditProfileWindow
-				System.out.println(lvPlayers.getSelectionModel().getSelectedItem() + " double clicked");
 				Main.getPrimaryStage().setScene(new Scene(new ViewEditProfileWindow(lvPlayers.getSelectionModel().getSelectedItem())));
 				Main.getPrimaryStage().setTitle("View/Edit Profile");
 			}
@@ -181,9 +176,9 @@ public class MainWindow extends BorderPane implements Initializer {
 			while (rs.next())
 				players.add(rs.getString("user_name"));
 			
-		} catch (SQLException e) {
+		} catch (SQLException sqlex) {
 			
-			System.out.println(e.getMessage());
+			System.out.println(sqlex.getMessage());
 		}
 	}
 

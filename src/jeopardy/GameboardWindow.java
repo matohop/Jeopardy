@@ -1,5 +1,10 @@
 package jeopardy;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,12 +22,14 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	public Button[][] tile;
 	public GridPane gridPane;
 	public PlayerUsernameAndScore playerUsernameAndScore;
+	public ArrayList<String> categories;
 	
 	GameboardWindow() {
 		
 		tile = new Button[6][5];
 		gridPane = new GridPane();
 		playerUsernameAndScore = new PlayerUsernameAndScore();
+		categories = new ArrayList<>();
 		
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
@@ -57,6 +64,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		
 		// add playerUsernameAndScore to top section of BorderPane
 		this.setTop(playerUsernameAndScore);
+		
+		getRandomCategories();
 	}
 	
 	
@@ -99,5 +108,33 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		}
 		
 	} // end PlayerUsernameAndScore
+	
+	// get 6 random and unique categories
+	private void getRandomCategories() {
+		
+		try {
+			
+			String sql = "SELECT category_name "
+			           + "FROM Categories "
+					   + "ORDER BY random() "
+			           + "LIMIT 6";
+			
+			Statement stmt = Main.getConnection().createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			System.out.print("6 random and unique categories: ");
+			
+			while (rs.next()) {
+				
+				categories.add(rs.getString("category_name"));
+			}
+			
+			System.out.println(categories);
+			
+		} catch (SQLException sqlex) {
+			
+			System.out.println(sqlex.getMessage());
+		}
+	}
 
 } // end GameboardWindow
