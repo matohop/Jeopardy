@@ -28,7 +28,7 @@ public class MainWindow extends BorderPane implements Initializer {
 	public Image imgLogo;
 	public ImageView imgViewLogo;
 	public ListView<String> lvPlayers, lvPlayersAdded;
-	public static ObservableList<String> players;
+	public static ObservableList<String> players, playersAdded;
 	
 	public MainWindow() {
 
@@ -40,6 +40,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		// ListViews
 		players = FXCollections.observableArrayList();
+		playersAdded = FXCollections.observableArrayList();
 		populateLvPlayers();
 		lvPlayers = new ListView<>(players);
 		lvPlayersAdded = new ListView<>();
@@ -122,20 +123,33 @@ public class MainWindow extends BorderPane implements Initializer {
 		// Button action - ">"
 		btnLvAdd.setOnAction((ActionEvent e) -> {
 			
-			System.out.println("Add player button clicked");
+			// get the player selected
+			String player = lvPlayers.getSelectionModel().getSelectedItem();
+			
+			// add player to the playersAdded ArrayList
+			playersAdded.add(player);
+			
+			// add player to ListView of players added
+			lvPlayersAdded.setItems(playersAdded);
+			
+			// remove player from ListView players
+			lvPlayers.getItems().remove(player);
 		});
 		
 		// Button action - "<"
 		btnLvRemove.setOnAction((ActionEvent e) -> {
 			
-			System.out.println("Remove player button clicked");
-		});
-
-		// ListView action - selected item
-		lvPlayers.getSelectionModel().selectedItemProperty().addListener((Observable ov) -> {
+			// get the player selected
+			String player = lvPlayersAdded.getSelectionModel().getSelectedItem();
 			
-			System.out.println("Selected indices: " + lvPlayers.getSelectionModel().getSelectedIndices());
-			System.out.println("Selected items: " + lvPlayers.getSelectionModel().getSelectedItem());
+			// add player to the players ArrayList
+			players.add(player);
+			
+			// add player to ListView of players
+			lvPlayers.setItems(players);
+			
+			// remove player from ListView players added
+			lvPlayersAdded.getItems().remove(player);
 		});
 		
 		// ListView action - double click item

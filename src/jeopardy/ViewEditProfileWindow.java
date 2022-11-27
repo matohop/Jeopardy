@@ -99,7 +99,9 @@ public class ViewEditProfileWindow extends ProfileWindow {
 				int playerID = rs.getInt("player_ID");
 				
 				// delete the player from database
-				sql = "DELETE FROM Players WHERE player_ID = " + playerID;
+				sql = "DELETE FROM Players "
+				    + "WHERE player_ID = " + playerID;
+
 				pstmt = Main.getConnection().prepareStatement(sql);
 				pstmt.executeUpdate();
 				
