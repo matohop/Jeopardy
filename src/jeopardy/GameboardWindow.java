@@ -15,10 +15,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 public class GameboardWindow extends BorderPane implements Initializer {
 
@@ -68,13 +71,14 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		// add Quit Game button
 		gridPane.add(btnQuitGame, 5, 6);
 		
+		getRandomCategories();
+		createCategoryBoxes();
+		
 		// add GridPane to center section of BorderPane
 		this.setCenter(gridPane);
 		
 		// add playerUsernameAndScore to top section of BorderPane
 		this.setTop(playerUsernameAndScore);
-		
-		getRandomCategories();
 		
 		// button action - Quit Game
 		btnQuitGame.setOnAction((ActionEvent e) -> {
@@ -84,6 +88,39 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			Main.gotoPrimaryScene();
 			
 		});
+	}
+	
+	private void createCategoryBoxes() {
+		
+		// each category box contains a stackPane, rectangle, and label
+		StackPane[] sp   = new StackPane[6];
+		Rectangle[] rect = new Rectangle[6];
+		Label[]     lbl  = new Label[6];
+		
+		for (int i = 0; i < 6; i++) {
+			
+			rect[i] = new Rectangle();
+			sp[i]   = new StackPane();
+			lbl[i]  = new Label(categories.get(i));
+			
+			rect[i].setStyle("-fx-fill: #3251fc;");
+			
+			// set height/width of rectangle/stackpane to tile size
+			rect[i].widthProperty().bind(tile[0][1].widthProperty());
+			rect[i].heightProperty().bind(tile[0][1].heightProperty());
+			sp[i].setPrefWidth(tile[0][1].getWidth());
+			sp[i].setPrefHeight(tile[0][1].getHeight());
+			
+			// set label text properties
+			lbl[i].setWrapText(true);
+			lbl[i].setTextAlignment(TextAlignment.CENTER);
+			lbl[i].setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14.5));
+			lbl[i].setTextFill(Color.WHITE);
+
+			// add nodes to stackpane, gridpane
+			sp[i].getChildren().addAll(rect[i], lbl[i]);
+			gridPane.add(sp[i], i, 0);
+		}
 	}
 	
 	
