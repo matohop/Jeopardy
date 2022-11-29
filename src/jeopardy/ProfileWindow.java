@@ -47,6 +47,8 @@ public class ProfileWindow extends GridPane implements Initializer {
 		this.add(btnCancel, 0, 4);
 		this.add(btnSave, 1, 4);
 
+		// Actions/Listeners -------------------------------------------------------------
+
 		// Button action - Save
 		btnSave.setOnAction((ActionEvent e) -> {
 			
@@ -108,6 +110,11 @@ public class ProfileWindow extends GridPane implements Initializer {
 					
 					System.out.println(sqlex.getMessage());
 				}
+			}
+			
+			else {
+				
+				System.out.println("Save error");
 			}
 			
 			MainWindow.populateLvPlayers();

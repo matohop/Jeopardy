@@ -75,6 +75,8 @@ public class ViewEditProfileWindow extends ProfileWindow {
 			System.out.println(e.getMessage());
 		}
 		
+		// Actions/Listeners -------------------------------------------------------------
+
 		// Button action - Edit
 		btnEdit.setOnAction((ActionEvent e) -> {
 			

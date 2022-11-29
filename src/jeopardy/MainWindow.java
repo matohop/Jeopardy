@@ -96,6 +96,8 @@ public class MainWindow extends BorderPane implements Initializer {
 		this.setTop(imgViewLogo);
 		this.setCenter(hBoxCenter);
 		this.setBottom(hBoxBottom);
+		
+		// Actions/Listeners -------------------------------------------------------------
 
 		// Button action - Create Profile
 		btnCreateProfile.setOnAction((ActionEvent e) -> {
