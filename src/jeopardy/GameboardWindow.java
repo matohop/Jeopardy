@@ -73,7 +73,6 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		gridPane.add(btnQuitGame, 5, 6);
 		
 		getRandomCategories();
-		createCategoryBoxes();
 		
 		// add GridPane to center section of BorderPane
 		this.setCenter(gridPane);
@@ -129,7 +128,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	class PlayerUsernameAndScore extends HBox implements Initializer {
 		
 		public Label[] lblPlayerUsername;
-		public Text[] txtPlayerScore;
+		public Text[]  txtPlayerScore;
 		public ArrayList<Player> _players;
 		
 		PlayerUsernameAndScore() {
@@ -233,6 +232,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			
 			System.out.println(sqlex.getMessage());
 		}
+		
+		createCategoryBoxes();
 	}
 
 } // end GameboardWindow
