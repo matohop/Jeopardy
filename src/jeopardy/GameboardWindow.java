@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javafx.event.ActionEvent;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -21,6 +23,7 @@ import javafx.scene.text.Text;
 public class GameboardWindow extends BorderPane implements Initializer {
 
 	public Button[][] tile;
+	public Button btnQuitGame;
 	public GridPane gridPane;
 	public PlayerUsernameAndScore playerUsernameAndScore;
 	public ArrayList<String> categories;
@@ -28,12 +31,14 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	GameboardWindow() {
 		
 		tile = new Button[6][5];
+		btnQuitGame = new Button("Quit Game");
 		gridPane = new GridPane();
 		playerUsernameAndScore = new PlayerUsernameAndScore();
 		categories = new ArrayList<>();
 		
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
+		GridPane.setHalignment(btnQuitGame, HPos.RIGHT);
 		this.setPadding(new Insets(3, 3, 3, 3));
 		
 		init();
@@ -60,6 +65,9 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			}
 		}
 		
+		// add Quit Game button
+		gridPane.add(btnQuitGame, 5, 6);
+		
 		// add GridPane to center section of BorderPane
 		this.setCenter(gridPane);
 		
@@ -67,6 +75,15 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		this.setTop(playerUsernameAndScore);
 		
 		getRandomCategories();
+		
+		// button action - Quit Game
+		btnQuitGame.setOnAction((ActionEvent e) -> {
+			
+			/* TODO update player's info */
+			
+			Main.gotoPrimaryScene();
+			
+		});
 	}
 	
 	

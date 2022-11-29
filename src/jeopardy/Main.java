@@ -59,4 +59,10 @@ public class Main extends Application {
 
 	public static void setConnection(Connection connection) { Main.connection = connection; }
 	
+	public static void gotoPrimaryScene() {
+
+		primaryStage.setScene(primaryScene);
+		primaryStage.setTitle("Jeopardy");
+	}
+	
 }

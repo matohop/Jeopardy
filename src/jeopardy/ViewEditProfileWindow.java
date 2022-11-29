@@ -109,7 +109,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 				
 				// refresh the ListView and go back to MainWindow
 				MainWindow.populateLvPlayers();
-				gotoPrimaryScene();
+				Main.gotoPrimaryScene();
 				
 			} catch (SQLException sqlex) {
 				
