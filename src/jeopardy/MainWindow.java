@@ -106,9 +106,12 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		// Button action - Start Game
 		btnStartGame.setOnAction((ActionEvent e) -> {
-
-			Main.getPrimaryStage().setScene(new Scene(new GameboardWindow(), 741, 817));
-			Main.getPrimaryStage().setTitle("Gameboard");
+			
+			if (!(playersAdded.size() == 0)) {
+				
+				Main.getPrimaryStage().setScene(new Scene(new GameboardWindow(), 741, 817));
+				Main.getPrimaryStage().setTitle("Gameboard");
+			}
 		});
 		
 		// Button action - View Leaderboard
