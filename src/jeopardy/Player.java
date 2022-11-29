@@ -3,7 +3,7 @@ package jeopardy;
 public class Player {
 	
 	private String username;
-	private int    playerID, highScore, numGamesPlayed, numQuestionsCorrect;
+	private int    playerID, highScore, numGamesPlayed, numQuestionsCorrect, currentScore;
 	
 	public Player(int playerID, String username, int highScore, int numGamesPlayed, int numQuestionsCorrect) {
 		
@@ -12,6 +12,7 @@ public class Player {
 		this.highScore = highScore;
 		this.numGamesPlayed = numGamesPlayed;
 		this.numQuestionsCorrect = numQuestionsCorrect;
+		currentScore = 0;
 	}
 
 	public int getPlayerID() { return playerID; }
@@ -33,5 +34,9 @@ public class Player {
 	public int getNumQuestionsCorrect() { return numQuestionsCorrect; }
 
 	public void setNumQuestionsCorrect(int numQuestionsCorrect) { this.numQuestionsCorrect = numQuestionsCorrect; }
+	
+	public void setCurrentScore(int currentScore) { this.currentScore = currentScore; }
+	
+	public int getCurrentScore() { return currentScore; }
 	
 }

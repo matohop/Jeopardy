@@ -1,5 +1,6 @@
 package jeopardy;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -74,11 +75,13 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		
 		public Label[] lblPlayerUsername;
 		public Text[]  txtPlayerScore;
+		public ArrayList<Player> _players;
 		
 		PlayerUsernameAndScore() {
 			
-			lblPlayerUsername = new Label[3]; // hardcoded size for testing
-			txtPlayerScore = new Text[3]; // hardcoded size for testing
+			_players          = new ArrayList<>();
+			lblPlayerUsername = new Label[MainWindow.playersAdded.size()];
+			txtPlayerScore    = new Text[MainWindow.playersAdded.size()];
 			
 			// alignment/padding/spacing
 			this.setAlignment(Pos.CENTER);
@@ -91,11 +94,13 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		@Override
 		public void init() {
 			
+			getCurrentPlayers();
+			
 			// create label for username, text for score
-			for (int i = 0; i < lblPlayerUsername.length; i++) {
+			for (int i = 0; i < _players.size(); i++) {
 				
-				lblPlayerUsername[i] = new Label("Test"); // hardcoded username for testing
-				txtPlayerScore[i] = new Text("$" + Integer.toString(0)); // hardcoded balance for testing
+				lblPlayerUsername[i] = new Label(_players.get(i).getUsername());
+				txtPlayerScore[i]    = new Text("$" + Integer.toString(_players.get(i).getCurrentScore()));
 				
 				// set font/color
 				lblPlayerUsername[i].setFont(Font.font("ITC Korinna", FontWeight.BOLD, 20));
@@ -105,6 +110,40 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				// add label/text nodes to HBox
 				this.getChildren().addAll(lblPlayerUsername[i], txtPlayerScore[i]);
 			}	
+		}
+		
+		private void getCurrentPlayers() {
+			
+			for (int i = 0; i < MainWindow.playersAdded.size(); i++) {
+				
+				// query player info from database into new Player
+				String plyr_username = MainWindow.playersAdded.get(i).toString();
+				
+				try {
+					
+					String sql = "SELECT player_ID, user_name, high_score, num_games_played, num_questions_correct " 
+					           + "FROM Players "
+					           + "WHERE user_name = ?";
+					
+					PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
+					pstmt.setString(1, plyr_username);
+					ResultSet rs = pstmt.executeQuery();
+					
+					int plyr_ID          = rs.getInt("player_ID");
+					int plyr_high_score  = rs.getInt("high_score");
+					int plyr_num_games   = rs.getInt("num_games_played");
+					int plyr_num_correct = rs.getInt("num_questions_correct");
+					
+					Player p = new Player(plyr_ID, plyr_username, plyr_high_score, plyr_num_games, plyr_num_correct);
+					
+					_players.add(p);
+					
+				} catch (SQLException e) {
+				
+					System.out.println(e.getMessage());
+				}
+				
+			}
 		}
 		
 	} // end PlayerUsernameAndScore
