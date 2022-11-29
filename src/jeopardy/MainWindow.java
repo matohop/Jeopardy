@@ -127,7 +127,7 @@ public class MainWindow extends BorderPane implements Initializer {
 			// get the player selected
 			String player = lvPlayers.getSelectionModel().getSelectedItem();
 			
-			if (!(player == null)) {
+			if (!(player == null) && playersAdded.size() < 3) {
 				
 				// add player to the playersAdded ArrayList
 				playersAdded.add(player);

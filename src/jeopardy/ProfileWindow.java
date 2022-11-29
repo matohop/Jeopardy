@@ -116,8 +116,7 @@ public class ProfileWindow extends GridPane implements Initializer {
 		
 		// Button action - Cancel
 		btnCancel.setOnAction((ActionEvent e) -> {
-			
-			System.out.println("Cancel button clicked");
+
 			Main.gotoPrimaryScene();
 		});
 		

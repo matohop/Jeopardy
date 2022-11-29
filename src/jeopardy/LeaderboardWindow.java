@@ -88,7 +88,6 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 		// Button action - Back
 		btnBack.setOnAction((ActionEvent e) -> {
 
-			System.out.println("Back button clicked");
 			Main.gotoPrimaryScene();
 		});
 		
