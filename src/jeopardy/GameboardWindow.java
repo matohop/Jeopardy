@@ -74,7 +74,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	class PlayerUsernameAndScore extends HBox implements Initializer {
 		
 		public Label[] lblPlayerUsername;
-		public Text[]  txtPlayerScore;
+		public Text[] txtPlayerScore;
 		public ArrayList<Player> _players;
 		
 		PlayerUsernameAndScore() {
@@ -114,11 +114,14 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		
 		private void getCurrentPlayers() {
 			
+			int    plyr_ID, plyr_high_score, plyr_num_games, plyr_num_correct;
+			String plyr_username;
+			
 			for (int i = 0; i < MainWindow.playersAdded.size(); i++) {
 				
-				// query player info from database into new Player
-				String plyr_username = MainWindow.playersAdded.get(i).toString();
+				plyr_username = MainWindow.playersAdded.get(i).toString();
 				
+				// query player info from database
 				try {
 					
 					String sql = "SELECT player_ID, user_name, high_score, num_games_played, num_questions_correct " 
@@ -129,11 +132,12 @@ public class GameboardWindow extends BorderPane implements Initializer {
 					pstmt.setString(1, plyr_username);
 					ResultSet rs = pstmt.executeQuery();
 					
-					int plyr_ID          = rs.getInt("player_ID");
-					int plyr_high_score  = rs.getInt("high_score");
-					int plyr_num_games   = rs.getInt("num_games_played");
-					int plyr_num_correct = rs.getInt("num_questions_correct");
+					plyr_ID          = rs.getInt("player_ID");
+					plyr_high_score  = rs.getInt("high_score");
+					plyr_num_games   = rs.getInt("num_games_played");
+					plyr_num_correct = rs.getInt("num_questions_correct");
 					
+					// create new Player
 					Player p = new Player(plyr_ID, plyr_username, plyr_high_score, plyr_num_games, plyr_num_correct);
 					
 					_players.add(p);
