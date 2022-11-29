@@ -91,7 +91,8 @@ public class ProfileWindow extends GridPane implements Initializer {
 					int playerID = rs.getInt("player_ID");
 					
 					// update using playerID
-					sql = "UPDATE Players SET user_name = ? "
+					sql = "UPDATE Players "
+					    + "SET user_name = ? "
 					    + "WHERE player_ID = ?";
 					
 					pstmt = Main.getConnection().prepareStatement(sql);

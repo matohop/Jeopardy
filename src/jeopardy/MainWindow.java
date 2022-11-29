@@ -32,28 +32,30 @@ public class MainWindow extends BorderPane implements Initializer {
 	public MainWindow() {
 
 		// Jeopardy logo
-		imgLogo = new Image("resources/images/logo_transparent.png");
+		imgLogo     = new Image("resources/images/logo_transparent.png");
 		imgViewLogo = new ImageView(imgLogo);
 		imgViewLogo.setFitWidth(310);
 		imgViewLogo.setFitHeight(40);
 		
 		// ListViews
-		players = FXCollections.observableArrayList();
+		players      = FXCollections.observableArrayList();
 		playersAdded = FXCollections.observableArrayList();
 		populateLvPlayers();
-		lvPlayers = new ListView<>(players);
+		
+		lvPlayers      = new ListView<>(players);
 		lvPlayersAdded = new ListView<>();
+		
 		lvPlayers.setMaxHeight(100);
 		lvPlayersAdded.setMaxHeight(100);
 		lvPlayers.setMaxWidth(130);
 		lvPlayersAdded.setMaxWidth(130);
 		
 		// Buttons
-		btnCreateProfile = new Button("Create Profile");
+		btnCreateProfile   = new Button("Create Profile");
 		btnViewLeaderboard = new Button("View Leaderboard");
-		btnStartGame = new Button("Start Game");
-		btnLvAdd = new Button(">");
-		btnLvRemove = new Button("<");
+		btnStartGame       = new Button("Start Game");
+		btnLvAdd           = new Button(">");
+		btnLvRemove        = new Button("<");
 		
 		// HBox - for ListViews and VBox
 		hBoxCenter = new HBox(10);
@@ -122,14 +124,17 @@ public class MainWindow extends BorderPane implements Initializer {
 			// get the player selected
 			String player = lvPlayers.getSelectionModel().getSelectedItem();
 			
-			// add player to the playersAdded ArrayList
-			playersAdded.add(player);
-			
-			// add player to ListView of players added
-			lvPlayersAdded.setItems(playersAdded);
-			
-			// remove player from ListView players
-			lvPlayers.getItems().remove(player);
+			if (!(player == null)) {
+				
+				// add player to the playersAdded ArrayList
+				playersAdded.add(player);
+				
+				// add player to ListView of players added
+				lvPlayersAdded.setItems(playersAdded);
+				
+				// remove player from ListView players
+				lvPlayers.getItems().remove(player);
+			}
 		});
 		
 		// Button action - "<"
@@ -138,14 +143,17 @@ public class MainWindow extends BorderPane implements Initializer {
 			// get the player selected
 			String player = lvPlayersAdded.getSelectionModel().getSelectedItem();
 			
-			// add player to the players ArrayList
-			players.add(player);
-			
-			// add player to ListView of players
-			lvPlayers.setItems(players);
-			
-			// remove player from ListView players added
-			lvPlayersAdded.getItems().remove(player);
+			if (!(player == null)) {
+				
+				// add player to the players ArrayList
+				players.add(player);
+				
+				// add player to ListView of players
+				lvPlayers.setItems(players);
+				
+				// remove player from ListView players added
+				lvPlayersAdded.getItems().remove(player);
+			}
 		});
 		
 		// ListView action - double click item
