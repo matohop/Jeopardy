@@ -7,12 +7,12 @@ public class Player {
 	
 	public Player(int playerID, String username, int highScore, int numGamesPlayed, int numQuestionsCorrect) {
 		
-		this.playerID = playerID;
-		this.username = username;
-		this.highScore = highScore;
-		this.numGamesPlayed = numGamesPlayed;
+		this.playerID            = playerID;
+		this.username            = username;
+		this.highScore           = highScore;
+		this.numGamesPlayed      = numGamesPlayed;
 		this.numQuestionsCorrect = numQuestionsCorrect;
-		currentScore = 0;
+		currentScore             = 0;
 	}
 
 	public int getPlayerID() { return playerID; }

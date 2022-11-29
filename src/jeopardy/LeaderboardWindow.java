@@ -89,10 +89,7 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 		btnBack.setOnAction((ActionEvent e) -> {
 
 			System.out.println("Back button clicked");
-			
-			// go back to MainWindow
-			Main.getPrimaryStage().setScene(Main.getPrimaryScene());
-			Main.getPrimaryStage().setTitle("Jeopardy");
+			Main.gotoPrimaryScene();
 		});
 		
 	} // end init

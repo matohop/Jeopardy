@@ -9,8 +9,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-	private static Stage primaryStage;
-	private static Scene primaryScene;
+	private static Stage      primaryStage;
+	private static Scene      primaryScene;
 	private static Connection connection;
 	
 	public static void main(String[] args) {

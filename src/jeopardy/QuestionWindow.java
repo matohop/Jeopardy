@@ -27,19 +27,18 @@ public class QuestionWindow extends VBox implements Initializer {
 	public Timeline    timer;
 	
 	QuestionWindow() {
-		
-		txtClue = new Text();
-		txtClue.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 15));
-		
-		txtPlayerBuzzed = new Text();
-		txtPlayerBuzzed.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14));
 
+		txtClue         = new Text();
+		txtPlayerBuzzed = new Text();
 		tfAnswerField   = new TextField();
 		btnOK           = new Button("OK");
 		imgViewQuestion = new ImageView(new Image("resources/images/trebek_happy.jpg"));
 		progressBar     = new ProgressBar(0);
 		timer           = new Timeline();
 		
+		txtClue.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 15));
+		txtPlayerBuzzed.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14));
+
 		this.setPadding(new Insets(5));
 		
 		init();
@@ -88,6 +87,7 @@ public class QuestionWindow extends VBox implements Initializer {
 		
 		// fire OK Button if Enter key is pressed
 		tfAnswerField.setOnKeyPressed(e -> {
+			
 			if (e.getCode() == KeyCode.ENTER)
 				btnOK.fire();
 		});

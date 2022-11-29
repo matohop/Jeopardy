@@ -9,11 +9,11 @@ public class Question {
 	public Question(int questionID, String category, String clue, String answer, int value, String type) {
 		
 		this.questionID = questionID;
-		this.category = category;
-		this.clue = clue;
-		this.answer = answer;
-		this.value = value;
-		this.type = type;
+		this.category   = category;
+		this.clue       = clue;
+		this.answer     = answer;
+		this.value      = value;
+		this.type       = type;
 	}
 
 	public int getQuestionID() { return questionID; }

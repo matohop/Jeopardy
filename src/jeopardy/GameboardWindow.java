@@ -25,19 +25,19 @@ import javafx.scene.text.TextAlignment;
 
 public class GameboardWindow extends BorderPane implements Initializer {
 
-	public Button[][] tile;
-	public Button btnQuitGame;
-	public GridPane gridPane;
+	public Button[][]             tile;
+	public Button                 btnQuitGame;
+	public GridPane               gridPane;
 	public PlayerUsernameAndScore playerUsernameAndScore;
-	public ArrayList<String> categories;
+	public ArrayList<String>      categories;
 	
 	GameboardWindow() {
 		
-		tile = new Button[6][5];
-		btnQuitGame = new Button("Quit Game");
-		gridPane = new GridPane();
+		tile                   = new Button[6][5];
+		btnQuitGame            = new Button("Quit Game");
+		gridPane               = new GridPane();
 		playerUsernameAndScore = new PlayerUsernameAndScore();
-		categories = new ArrayList<>();
+		categories             = new ArrayList<>();
 		
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
@@ -51,6 +51,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	public void init() {
 		
 		for (int col = 0; col < 6; col++) {
+
 			for (int row = 0; row < 5; row++) {
 				
 				// create tile with monetary value and set size/font/color

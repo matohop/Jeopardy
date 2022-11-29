@@ -21,10 +21,10 @@ import javafx.scene.layout.VBox;
 
 public class MainWindow extends BorderPane implements Initializer {
 	
-	public Button btnCreateProfile, btnViewLeaderboard, btnStartGame, btnLvAdd, btnLvRemove;
-	public HBox hBoxCenter, hBoxBottom;
-	public VBox vBoxLvButtons;
-	public Image imgLogo;
+	public Button    btnCreateProfile, btnViewLeaderboard, btnStartGame, btnLvAdd, btnLvRemove;
+	public HBox      hBoxCenter, hBoxBottom;
+	public VBox      vBoxLvButtons;
+	public Image     imgLogo;
 	public ImageView imgViewLogo;
 	public ListView<String> lvPlayers, lvPlayersAdded;
 	public static ObservableList<String> players, playersAdded;

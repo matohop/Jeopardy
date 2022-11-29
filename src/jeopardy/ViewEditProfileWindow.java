@@ -19,7 +19,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 	public ViewEditProfileWindow(String _username) {
 		
 		tfUsername.setText(_username);
-		username = tfUsername.getText();
+		username = _username;
 		
 		lblHighScore       = new Label("High Score:");
 		lblnNumGamesPlayed = new Label("Games Played:");
