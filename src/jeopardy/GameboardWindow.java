@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -22,14 +23,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 
 public class GameboardWindow extends BorderPane implements Initializer {
 
-	public Button[][]             tile;
-	public Button                 btnQuitGame;
-	public GridPane               gridPane;
-	public PlayerUsernameAndScore playerUsernameAndScore;
-	public ArrayList<String>      categories;
+	public Button[][]               tile;
+	public Button                   btnQuitGame;
+	public GridPane                 gridPane;
+	public PlayerUsernameAndScore   playerUsernameAndScore;
+	public ArrayList<String>        categories;
+	public static ArrayList<Player> _players;
+	public static int               numPlayers;
+	
+	public static Stage             questionStage;
 	
 	GameboardWindow() {
 		
@@ -38,6 +44,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		gridPane               = new GridPane();
 		playerUsernameAndScore = new PlayerUsernameAndScore();
 		categories             = new ArrayList<>();
+		numPlayers             = _players.size();
+		questionStage          = new Stage();
 		
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
@@ -66,6 +74,41 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				
 				// add tile to grid section
 				gridPane.add(tile[col][row], col, row + 1);
+				
+				final int _col = col;
+				final int _row = row + 1;
+				
+				// Actions/Listeners -------------------------------------------------------------
+				
+				tile[col][row].setOnAction((ActionEvent e) -> {
+					
+					try {
+						
+						String sql = "SELECT question_ID, category, clue, answer, value, type "
+								   + "FROM Questions "
+								   + "WHERE category = ? "
+								   + "AND value = ?";
+						
+						PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
+						pstmt.setString(1, categories.get(_col));
+						pstmt.setInt(2, _row * 100);
+						ResultSet rs = pstmt.executeQuery();
+						
+						Question q = new Question(
+								                  rs.getInt("question_ID"), rs.getString("category"), rs.getString("clue"), 
+								                  rs.getString("answer"),  rs.getInt("value"),       rs.getString("type"));
+						
+						questionStage.setScene(new QuestionWindow(q).getQuestionScene());
+						questionStage.setTitle("Clue");
+						questionStage.show();
+						
+						
+					} catch (SQLException sqlex) {
+						
+						System.out.println(sqlex.getMessage());
+						
+					}
+				});
 			}
 		}
 		
@@ -129,7 +172,6 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		
 		public Label[] lblPlayerUsername;
 		public Text[]  txtPlayerScore;
-		public ArrayList<Player> _players;
 		
 		PlayerUsernameAndScore() {
 			
@@ -167,11 +209,11 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		}
 		
 		private void getCurrentPlayers() {
-			
-			int    plyr_ID, plyr_high_score, plyr_num_games, plyr_num_correct;
+
 			String plyr_username;
+			int    sze = MainWindow.playersAdded.size();
 			
-			for (int i = 0; i < MainWindow.playersAdded.size(); i++) {
+			for (int i = 0; i < sze; i++) {
 				
 				plyr_username = MainWindow.playersAdded.get(i).toString();
 				
@@ -186,13 +228,10 @@ public class GameboardWindow extends BorderPane implements Initializer {
 					pstmt.setString(1, plyr_username);
 					ResultSet rs = pstmt.executeQuery();
 					
-					plyr_ID          = rs.getInt("player_ID");
-					plyr_high_score  = rs.getInt("high_score");
-					plyr_num_games   = rs.getInt("num_games_played");
-					plyr_num_correct = rs.getInt("num_questions_correct");
-					
 					// create new Player
-					Player p = new Player(plyr_ID, plyr_username, plyr_high_score, plyr_num_games, plyr_num_correct);
+					Player p = new Player(
+							              rs.getInt("player_ID"), plyr_username, rs.getInt("high_score"),
+							              rs.getInt("num_games_played"), rs.getInt("num_questions_correct"));
 					
 					_players.add(p);
 					
@@ -200,7 +239,6 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				
 					System.out.println(e.getMessage());
 				}
-				
 			}
 		}
 		
