@@ -128,8 +128,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 							
 							/* TODO Final Jeopardy*/
 						}
-						
-						
+
 					} catch (SQLException sqlex) {
 						
 						System.out.println(sqlex.getMessage());
@@ -195,7 +194,35 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		}
 	}
 	
+	// get 6 random and unique categories
+	private void getRandomCategories() {
+		
+		try {
+			
+			String sql = "SELECT category_name "
+			           + "FROM Categories "
+			           + "ORDER BY random() "
+			           + "LIMIT 7";
+				
+			Statement stmt = Main.getConnection().createStatement();
+			ResultSet rs   = stmt.executeQuery(sql);
+
+			System.out.print("6 random and unique categories: ");
+			while (rs.next())
+				categories.add(rs.getString("category_name"));
+			System.out.println(categories);
+				
+		} catch (SQLException sqlex) {
+				
+			System.out.println(sqlex.getMessage());
+		}
+		
+		createCategoryBoxes();
+	}
+	
+	// -----------------------------------------------------------------------
 	// inner class to display player username(s) and balance at top of Gameboard
+	// -----------------------------------------------------------------------
 	class PlayerUsernameAndScore extends HBox implements Initializer {
 		
 		public VBox[]  vBoxPresentPlayer;
@@ -313,35 +340,5 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		}
 		
 	} // end PlayerUsernameAndScore
-	
-	// get 6 random and unique categories
-	private void getRandomCategories() {
-
-		try {
-			
-			String sql = "SELECT category_name "
-			           + "FROM Categories "
-			           + "ORDER BY random() "
-			           + "LIMIT 7";
-			
-			Statement stmt = Main.getConnection().createStatement();
-			ResultSet rs   = stmt.executeQuery(sql);
-			
-			System.out.print("6 random and unique categories: ");
-			
-			while (rs.next()) {
-			
-				categories.add(rs.getString("category_name"));
-			}
-			
-			System.out.println(categories);
-			
-		} catch (SQLException sqlex) {
-			
-			System.out.println(sqlex.getMessage());
-		}
-		
-		createCategoryBoxes();
-	}
 
 } // end GameboardWindow
