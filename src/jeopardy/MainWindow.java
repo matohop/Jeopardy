@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,11 +22,13 @@ import javafx.scene.layout.VBox;
 
 public class MainWindow extends BorderPane implements Initializer {
 	
+	
 	public Button    btnCreateProfile, btnViewLeaderboard, btnStartGame, btnLvAdd, btnLvRemove;
 	public HBox      hBoxCenter, hBoxBottom;
-	public VBox      vBoxLvButtons;
+	public VBox      vBoxLvButtons, vBoxAvailable, vBoxQueue;
 	public Image     imgLogo;
 	public ImageView imgViewLogo;
+	public Label     lblAvailable, lblQueue;
 	public ListView<String> lvPlayers, lvPlayersAdded;
 	public static ObservableList<String> players, playersAdded;
 	
@@ -57,6 +60,10 @@ public class MainWindow extends BorderPane implements Initializer {
 		btnLvAdd           = new Button(">");
 		btnLvRemove        = new Button("<");
 		
+		// Labels
+		lblAvailable = new Label("Available Players");
+		lblQueue     = new Label("Game Queue");
+		
 		// HBox - for ListViews and VBox
 		hBoxCenter = new HBox(10);
 		hBoxCenter.setAlignment(Pos.CENTER);
@@ -69,7 +76,12 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		// VBox - for "<" and ">" Buttons
 		vBoxLvButtons = new VBox(10);
+		vBoxAvailable = new VBox(5);
+		vBoxQueue     = new VBox(5);
 		vBoxLvButtons.setAlignment(Pos.CENTER);
+		vBoxAvailable.setAlignment(Pos.CENTER);
+		vBoxQueue.setAlignment(Pos.CENTER);
+		
 		
 		// BorderPane alignment/padding
 		BorderPane.setAlignment(imgViewLogo, Pos.CENTER);
@@ -83,11 +95,13 @@ public class MainWindow extends BorderPane implements Initializer {
 	@Override
 	public void init() {
 		
-		// add Buttons to VBox
+		// add children to VBoxes
 		vBoxLvButtons.getChildren().addAll(btnLvAdd, btnLvRemove);
+		vBoxAvailable.getChildren().addAll(lblAvailable, lvPlayers);
+		vBoxQueue.getChildren().addAll(lblQueue, lvPlayersAdded);
 		
-		// add ListViews and VBox to HBox
-		hBoxCenter.getChildren().addAll(lvPlayers, vBoxLvButtons, lvPlayersAdded);
+		// add ListViews and VBoxes to HBox
+		hBoxCenter.getChildren().addAll(vBoxAvailable, vBoxLvButtons, vBoxQueue);
 		
 		// add bottom Buttons
 		hBoxBottom.getChildren().addAll(btnCreateProfile, btnViewLeaderboard, btnStartGame);
