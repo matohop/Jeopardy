@@ -14,12 +14,13 @@ public class Main extends Application {
 	private static Connection connection;
 	
 	public static void main(String[] args) {
+
 		launch(args);
 	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		
+
 		primaryStage = stage;
 		establishConnection(); // to database
 		

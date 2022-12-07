@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -36,6 +37,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	public static ArrayList<Player> _players;
 	public static int               numPlayers;
 	public int                      counter;
+	public int                      turnIndex, currentPlayerIndex;
+	public boolean                  isInProgress;
 	
 	public static Stage             questionStage;
 	
@@ -49,6 +52,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		numPlayers             = _players.size();
 		questionStage          = new Stage();
 		counter                = 0;
+		turnIndex              = 0;
+		isInProgress           = true;
 		
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
@@ -101,6 +106,12 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						                          rs.getInt("question_ID"), rs.getString("category"), rs.getString("clue"), 
 						                          rs.getString("answer"),   rs.getInt("value"),       rs.getString("type"));
 						
+						// if Daily Double
+						if (q.getType().equals("DD")) {
+							
+							/* TODO */
+						}
+						
 						questionStage.setScene(new QuestionWindow(q).getQuestionScene());
 						questionStage.setTitle("Clue");
 						
@@ -115,7 +126,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						// Final Jeopardy
 						if (counter == 30) {
 							
-							/* GOTO Final Jeopardy*/
+							/* TODO Final Jeopardy*/
 						}
 						
 						
@@ -141,6 +152,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		
 		// button action - Quit Game
 		btnQuitGame.setOnAction((ActionEvent e) -> {
+			
+			isInProgress = false;
 			
 			/* TODO update player's info */
 			
@@ -182,13 +195,13 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		}
 	}
 	
-	
 	// inner class to display player username(s) and balance at top of Gameboard
 	class PlayerUsernameAndScore extends HBox implements Initializer {
 		
 		public VBox[]  vBoxPresentPlayer;
 		public Label[] lblPlayerUsername;
 		public Text[]  txtPlayerScore;
+		private String txt;
 		
 		PlayerUsernameAndScore() {
 			
@@ -226,7 +239,17 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				
 				// add label/text nodes to HBox
 				this.getChildren().add(vBoxPresentPlayer[i]);
-			}	
+			}
+			
+			// start flashing current player
+			try {
+				
+				startFlashingAnimation();
+				
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
 		}
 		
 		private void getCurrentPlayers() {
@@ -261,6 +284,32 @@ public class GameboardWindow extends BorderPane implements Initializer {
 					System.out.println(e.getMessage());
 				}
 			}
+		}
+		
+		// flash current player
+		private void startFlashingAnimation() throws InterruptedException {
+		
+			new Thread(() -> {
+		
+				while (isInProgress) {
+					
+					if (lblPlayerUsername[turnIndex].getText().equals(""))
+						txt = _players.get(turnIndex).getUsername();
+					else
+						txt = "";
+					
+					Platform.runLater(() -> lblPlayerUsername[turnIndex].setText(txt));
+					
+					try {
+						
+						Thread.sleep(1000);
+						
+					} catch (InterruptedException e) {
+						
+						e.printStackTrace();
+					}
+				}
+			}).start();
 		}
 		
 	} // end PlayerUsernameAndScore
