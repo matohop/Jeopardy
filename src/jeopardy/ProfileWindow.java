@@ -71,7 +71,7 @@ public class ProfileWindow extends GridPane implements Initializer {
 						System.out.println(newUsername + " added to database");
 						
 					} catch (SQLException sqlex) {
-						
+			
 						System.out.println(sqlex.getMessage());
 					}
 					

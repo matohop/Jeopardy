@@ -182,7 +182,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		// ListView action - double click item
 		lvPlayers.setOnMouseClicked((MouseEvent me) -> {
 			
-			if (me.getClickCount() == 2) {
+			if ((me.getClickCount() == 2) && (lvPlayers.getSelectionModel().getSelectedItem() != null)) {
 				
 				// retrieve selected player info from database and open in ViewEditProfileWindow
 				Main.getPrimaryStage().setScene(new Scene(new ViewEditProfileWindow(lvPlayers.getSelectionModel().getSelectedItem())));
