@@ -149,6 +149,7 @@ public class QuestionWindow extends VBox implements Initializer {
 				   if not all players have tried to answer, then repeat the question */
 				
 				GameboardWindow.questionStage.close();
+				Main.getPrimaryStage().show();
 			}
 		});
 		

@@ -100,7 +100,13 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						
 						questionStage.setScene(new QuestionWindow(q).getQuestionScene());
 						questionStage.setTitle("Clue");
+						
+						// close gameboard stage and display question stage
+						Main.getPrimaryStage().close();
 						questionStage.show();
+						
+						// disable button
+						tile[_col][_row].setDisable(true);
 						
 						
 					} catch (SQLException sqlex) {
