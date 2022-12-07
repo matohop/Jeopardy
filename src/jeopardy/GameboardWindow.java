@@ -17,6 +17,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -185,12 +186,14 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	// inner class to display player username(s) and balance at top of Gameboard
 	class PlayerUsernameAndScore extends HBox implements Initializer {
 		
+		public VBox[]  vBoxPresentPlayer;
 		public Label[] lblPlayerUsername;
 		public Text[]  txtPlayerScore;
 		
 		PlayerUsernameAndScore() {
 			
 			_players          = new ArrayList<>();
+			vBoxPresentPlayer = new VBox[MainWindow.playersAdded.size()];
 			lblPlayerUsername = new Label[MainWindow.playersAdded.size()];
 			txtPlayerScore    = new Text[MainWindow.playersAdded.size()];
 			
@@ -198,6 +201,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			this.setAlignment(Pos.CENTER);
 			this.setPadding(new Insets(10));
 			this.setSpacing(50);
+			this.setStyle("-fx-border-color: black");
 			
 			init();
 		}
@@ -212,14 +216,16 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				
 				lblPlayerUsername[i] = new Label(_players.get(i).getUsername());
 				txtPlayerScore[i]    = new Text("$" + Integer.toString(_players.get(i).getCurrentScore()));
+				vBoxPresentPlayer[i] = new VBox(lblPlayerUsername[i], txtPlayerScore[i]);
 				
-				// set font/color
+				// set font/color/alignment
 				lblPlayerUsername[i].setFont(Font.font("ITC Korinna", FontWeight.BOLD, 20));
 				txtPlayerScore[i].setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14));
 				txtPlayerScore[i].setFill(Color.GREEN);
+				vBoxPresentPlayer[i].setAlignment(Pos.CENTER);
 				
 				// add label/text nodes to HBox
-				this.getChildren().addAll(lblPlayerUsername[i], txtPlayerScore[i]);
+				this.getChildren().add(vBoxPresentPlayer[i]);
 			}	
 		}
 		
