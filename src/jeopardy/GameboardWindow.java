@@ -34,6 +34,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	public ArrayList<String>        categories;
 	public static ArrayList<Player> _players;
 	public static int               numPlayers;
+	public int                      counter;
 	
 	public static Stage             questionStage;
 	
@@ -46,6 +47,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		categories             = new ArrayList<>();
 		numPlayers             = _players.size();
 		questionStage          = new Stage();
+		counter                = 0;
 		
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
@@ -101,12 +103,19 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						questionStage.setScene(new QuestionWindow(q).getQuestionScene());
 						questionStage.setTitle("Clue");
 						
-						// close gameboard stage and display question stage
+						// close Gameboard Stage and display Question Stage
 						Main.getPrimaryStage().close();
 						questionStage.show();
 						
-						// disable button
+						// disable button, increment counter
 						tile[_col][_row - 1].setDisable(true);
+						counter++;
+						
+						// Final Jeopardy
+						if (counter == 30) {
+							
+							/* GOTO Final Jeopardy*/
+						}
 						
 						
 					} catch (SQLException sqlex) {
@@ -236,8 +245,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 					
 					// create new Player
 					Player p = new Player(
-							              rs.getInt("player_ID"), plyr_username, rs.getInt("high_score"),
-							              rs.getInt("num_games_played"), rs.getInt("num_questions_correct"));
+					                      rs.getInt("player_ID"), plyr_username, rs.getInt("high_score"),
+					                      rs.getInt("num_games_played"), rs.getInt("num_questions_correct"));
 					
 					_players.add(p);
 					
@@ -258,7 +267,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			String sql = "SELECT category_name "
 			           + "FROM Categories "
 			           + "ORDER BY random() "
-			           + "LIMIT 6";
+			           + "LIMIT 7";
 			
 			Statement stmt = Main.getConnection().createStatement();
 			ResultSet rs   = stmt.executeQuery(sql);
