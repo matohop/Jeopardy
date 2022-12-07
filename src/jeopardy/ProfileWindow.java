@@ -52,13 +52,13 @@ public class ProfileWindow extends GridPane implements Initializer {
 		// Button action - Save
 		btnSave.setOnAction((ActionEvent e) -> {
 			
-			String newUsername = tfUsername.getText();
+			String newUsername = tfUsername.getText().trim();
 			
 			// creating a new profile
 			if (username.equals("")) {
 				
 				// if username not empty and doesn't exist
-				if (!newUsername.equals("") && !MainWindow.players.contains(newUsername)) {
+				if (!(newUsername.isEmpty()) && !(MainWindow.players.contains(newUsername))) {
 					
 					// INSERT username into database
 					try {
@@ -74,10 +74,14 @@ public class ProfileWindow extends GridPane implements Initializer {
 						
 						System.out.println(sqlex.getMessage());
 					}
+					
+				} else {
+					
+					System.out.println("Save error");
 				}
 			
 			// editing/updating existing profile
-			} else if (!newUsername.equals("") && !MainWindow.players.contains(newUsername)) {
+			} else if (!(newUsername.isEmpty()) && !(MainWindow.players.contains(newUsername))) {
 				
 				// UPDATE username in database
 				try {
