@@ -164,11 +164,11 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			
 			rect[i].setStyle("-fx-fill: #3251fc;");
 			
-			// set height/width of rectangle/stackpane to tile size
+			// set height/width of rectangle/stackpane
 			rect[i].widthProperty().bind(tile[0][1].widthProperty());
-			rect[i].heightProperty().bind(tile[0][1].heightProperty());
+			rect[i].setHeight(80);
 			sp[i].setPrefWidth(tile[0][1].getWidth());
-			sp[i].setPrefHeight(tile[0][1].getHeight());
+			sp[i].setPrefHeight(rect[i].getHeight());
 			
 			// set label text properties
 			lbl[i].setWrapText(true);
