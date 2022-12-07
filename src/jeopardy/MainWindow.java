@@ -48,6 +48,9 @@ public class MainWindow extends BorderPane implements Initializer {
 		lvPlayers      = new ListView<>(players);
 		lvPlayersAdded = new ListView<>();
 		
+		// select fist index by default
+		lvPlayers.getSelectionModel().select(0);
+		
 		lvPlayers.setMaxHeight(100);
 		lvPlayersAdded.setMaxHeight(100);
 		lvPlayers.setMaxWidth(130);
@@ -79,6 +82,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		vBoxAvailable = new VBox(5);
 		vBoxQueue     = new VBox(5);
 		vBoxLvButtons.setAlignment(Pos.CENTER);
+		vBoxLvButtons.setStyle("-fx-padding: 22 0 0 0;");
 		vBoxAvailable.setAlignment(Pos.CENTER);
 		vBoxQueue.setAlignment(Pos.CENTER);
 		
