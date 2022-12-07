@@ -106,7 +106,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						questionStage.show();
 						
 						// disable button
-						tile[_col][_row].setDisable(true);
+						tile[_col][_row - 1].setDisable(true);
 						
 						
 					} catch (SQLException sqlex) {
