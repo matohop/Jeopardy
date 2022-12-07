@@ -85,9 +85,9 @@ public class GameboardWindow extends BorderPane implements Initializer {
 					try {
 						
 						String sql = "SELECT question_ID, category, clue, answer, value, type "
-								   + "FROM Questions "
-								   + "WHERE category = ? "
-								   + "AND value = ?";
+						           + "FROM Questions "
+						           + "WHERE category = ? "
+						           + "AND value = ?";
 						
 						PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
 						pstmt.setString(1, categories.get(_col));
@@ -95,8 +95,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						ResultSet rs = pstmt.executeQuery();
 						
 						Question q = new Question(
-								                  rs.getInt("question_ID"), rs.getString("category"), rs.getString("clue"), 
-								                  rs.getString("answer"),  rs.getInt("value"),       rs.getString("type"));
+						                          rs.getInt("question_ID"), rs.getString("category"), rs.getString("clue"), 
+						                          rs.getString("answer"),   rs.getInt("value"),       rs.getString("type"));
 						
 						questionStage.setScene(new QuestionWindow(q).getQuestionScene());
 						questionStage.setTitle("Clue");

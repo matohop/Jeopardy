@@ -29,6 +29,7 @@ public class MainWindow extends BorderPane implements Initializer {
 	public Image     imgLogo;
 	public ImageView imgViewLogo;
 	public Label     lblAvailable, lblQueue;
+	
 	public ListView<String> lvPlayers, lvPlayersAdded;
 	public static ObservableList<String> players, playersAdded;
 	
@@ -44,13 +45,9 @@ public class MainWindow extends BorderPane implements Initializer {
 		players      = FXCollections.observableArrayList();
 		playersAdded = FXCollections.observableArrayList();
 		populateLvPlayers();
-		
 		lvPlayers      = new ListView<>(players);
 		lvPlayersAdded = new ListView<>();
-		
-		// select fist index by default
-		lvPlayers.getSelectionModel().select(0);
-		
+
 		lvPlayers.setMaxHeight(100);
 		lvPlayersAdded.setMaxHeight(100);
 		lvPlayers.setMaxWidth(130);
