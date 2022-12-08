@@ -84,83 +84,30 @@ public class QuestionWindow extends VBox implements Initializer {
 			
 			try {
 				
-				if (GameboardWindow.numPlayers == 1 && e.getCode() == KeyCode.SHIFT) {
+				if (GameboardWindow.numPlayers == 1) {
 
-					enableNodes();
+					switch(e.getCode()) {
+
+						case SHIFT: if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) { onKeyPressed(0); break; }
+						default: break;
+					}
 
 				} else if (GameboardWindow.numPlayers == 2) {
 					
 					switch(e.getCode()) {
 
-						case SHIFT:
-							
-							if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) {
-								
-								imgViewQuestion.setImage(imgHappy);
-								enableNodes();
-								plyrsNotAnswered.remove(GameboardWindow._players.get(0));
-								txtPlayerBuzzed.setText(GameboardWindow._players.get(0).getUsername() + " answered!");
-								GameboardWindow.currentPlayerIndex = 0;
-								break;
-							}
-
-						case SPACE:
-							
-							if (plyrsNotAnswered.contains(GameboardWindow._players.get(1))) {
-								
-								imgViewQuestion.setImage(imgHappy);
-								enableNodes();
-								plyrsNotAnswered.remove(GameboardWindow._players.get(1));
-								txtPlayerBuzzed.setText(GameboardWindow._players.get(1).getUsername() + " answered!");
-								GameboardWindow.currentPlayerIndex = 1;
-								break;
-							}
-
+						case SHIFT: if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) { onKeyPressed(0); break; }
+						case SPACE: if (plyrsNotAnswered.contains(GameboardWindow._players.get(1))) { onKeyPressed(1); break; }
 						default: break;
 					}
 					
 				} else {
 					
-					enableNodes();
-					
 					switch(e.getCode()) {
 					
-						case SHIFT:
-							
-							if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) {
-								
-								imgViewQuestion.setImage(imgHappy);
-								enableNodes();
-								plyrsNotAnswered.remove(GameboardWindow._players.get(0));
-								txtPlayerBuzzed.setText(GameboardWindow._players.get(0).getUsername() + " answered!");
-								GameboardWindow.currentPlayerIndex = 0;
-								break;
-							}
-
-						case SPACE:
-							
-							if (plyrsNotAnswered.contains(GameboardWindow._players.get(1))) {
-								
-								imgViewQuestion.setImage(imgHappy);
-								enableNodes();
-								plyrsNotAnswered.remove(GameboardWindow._players.get(1));
-								txtPlayerBuzzed.setText(GameboardWindow._players.get(1).getUsername() + " answered!");
-								GameboardWindow.currentPlayerIndex = 1;
-								break;
-							}
-
-						case ENTER:
-							
-							if (plyrsNotAnswered.contains(GameboardWindow._players.get(2))) {
-								
-								imgViewQuestion.setImage(imgHappy);
-								enableNodes();
-								plyrsNotAnswered.remove(GameboardWindow._players.get(2));
-								txtPlayerBuzzed.setText(GameboardWindow._players.get(2).getUsername() + " answered!");
-								GameboardWindow.currentPlayerIndex = 2;
-								break;
-							}
-
+						case SHIFT: if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) { onKeyPressed(0); break; }
+						case SPACE: if (plyrsNotAnswered.contains(GameboardWindow._players.get(1))) { onKeyPressed(1); break; }
+						case ENTER: if (plyrsNotAnswered.contains(GameboardWindow._players.get(2))) { onKeyPressed(2); break; }
 						default: break;
 					}
 				}
@@ -241,6 +188,15 @@ public class QuestionWindow extends VBox implements Initializer {
 		});
 		
 	} // end init
+	
+	private void onKeyPressed(int idx) {
+		
+		imgViewQuestion.setImage(imgHappy);
+		enableNodes();
+		plyrsNotAnswered.remove(GameboardWindow._players.get(idx));
+		txtPlayerBuzzed.setText(GameboardWindow._players.get(idx).getUsername() + " answered!");
+		GameboardWindow.currentPlayerIndex = idx;
+	}
 	
 	// enable these nodes when a player buzzes in
 	private void enableNodes() {
