@@ -153,7 +153,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			
 			isInProgress = false;
 			
-			/* TODO update player's info */
+			/* TODO update player stats */
 			
 			Main.gotoPrimaryScene();
 			

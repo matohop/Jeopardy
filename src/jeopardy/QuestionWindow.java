@@ -113,10 +113,6 @@ public class QuestionWindow extends VBox implements Initializer {
 				// disable buzzing in
 				//questionScene.setOnKeyPressed(null);
 				
-				// stop and restart timer
-				timer.stop();
-				startTimer();
-				
 			} catch (Exception ex) {
 				
 				System.out.println(ex.getMessage());
@@ -180,6 +176,7 @@ public class QuestionWindow extends VBox implements Initializer {
 
 			if (progressBar.getProgress() == 0) {
 
+				timer.stop();
 				Player p = GameboardWindow._players.get(GameboardWindow.currentPlayerIndex);
 				
 				/* if no player buzzed in, then go back to GameboardWindow
@@ -199,8 +196,6 @@ public class QuestionWindow extends VBox implements Initializer {
 						disableNodes();
 						tfAnswerField.clear();
 						txtPlayerBuzzed.setText("");
-						imgViewQuestion.setImage(imgHappy);
-						timer.stop();
 						startTimer();
 						
 					} else {
@@ -222,6 +217,8 @@ public class QuestionWindow extends VBox implements Initializer {
 	
 	private void onKeyPressed(int idx) {
 
+		timer.stop();
+		startTimer();
 		imgViewQuestion.setImage(imgHappy);
 		enableNodes();
 		plyrsNotAnswered.remove(GameboardWindow._players.get(idx));
