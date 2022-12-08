@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -123,10 +122,10 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						tile[_col][_row - 1].setDisable(true);
 						counter++;
 						
-						// Final Jeopardy
+						// Game over
 						if (counter == 30) {
 							
-							/* TODO Final Jeopardy*/
+							/* TODO game over */
 						}
 
 					} catch (SQLException sqlex) {

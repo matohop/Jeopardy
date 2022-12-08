@@ -207,7 +207,7 @@ public class QuestionWindow extends VBox implements Initializer {
 				
 				imgViewQuestion.setImage(imgSad);
 				
-				// decrement player's balance, set player's turn, update score text
+				// decrement player's balance, update score text
 				p.setCurrentScore(p.getCurrentScore() - question.getValue());
 				PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
 				
@@ -232,7 +232,7 @@ public class QuestionWindow extends VBox implements Initializer {
 			// if timer runs out
 			if (progressBar.getProgress() == 0) {
 				
-				/* if no player buzzed in, then go back to GameboardWindow
+				/* TODO if no player buzzed in, then go back to GameboardWindow
 				   otherwise decrement balance of player who buzzed in
 				   if not all players have tried to answer, then repeat the question */
 				
