@@ -26,7 +26,7 @@ public class QuestionWindow extends VBox implements Initializer {
 	public  Question    question;
 	public  Text        txtClue, txtPlayerBuzzed;
 	public  TextField   tfAnswerField;
-	public  Button      btnOK;
+	public  Button      btnOk;
 	public  Image       imgHappy, imgSad;
 	public  ImageView   imgViewQuestion;
 	public  ProgressBar progressBar;
@@ -39,15 +39,15 @@ public class QuestionWindow extends VBox implements Initializer {
 
 		question         = q;
 		txtClue          = new Text(question.getClue());
-		txtPlayerBuzzed  = new Text();
+		txtPlayerBuzzed  = new Text("");
 		tfAnswerField    = new TextField();
-		btnOK            = new Button("OK");
+		btnOk            = new Button("Ok");
 		imgHappy         = new Image("resources/images/trebek_happy.jpg");
 		imgSad           = new Image("resources/images/trebek_sad.jpg");
 		imgViewQuestion  = new ImageView(imgHappy);
 		progressBar      = new ProgressBar();
 		timer            = new Timeline();
-		questionScene    = new Scene(this, 600, 350);
+		questionScene    = new Scene(this, 750, 300);
 		plyrsNotAnswered = new ArrayList<>(GameboardWindow._players);
 		
 		txtClue.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 15));
@@ -67,7 +67,7 @@ public class QuestionWindow extends VBox implements Initializer {
 		disableNodes();
 		
 		// add nodes to VBox
-		this.getChildren().addAll(imgViewQuestion, txtClue, tfAnswerField, btnOK, txtPlayerBuzzed, progressBar);
+		this.getChildren().addAll(imgViewQuestion, txtClue, tfAnswerField, btnOk, txtPlayerBuzzed, progressBar);
 		
 		// set ProgressBar width
 		progressBar.prefWidthProperty().bind(this.widthProperty());
@@ -127,13 +127,13 @@ public class QuestionWindow extends VBox implements Initializer {
 		tfAnswerField.setOnKeyPressed(e -> {
 			
 			if (e.getCode() == KeyCode.ENTER)
-				btnOK.fire();
+				btnOk.fire();
 		});
 		
 		// -----------------------------------------------------------------------
 		// Button action - OK
 		// -----------------------------------------------------------------------
-		btnOK.setOnAction(e -> {
+		btnOk.setOnAction(e -> {
 			
 			timer.stop();
 			
@@ -177,15 +177,44 @@ public class QuestionWindow extends VBox implements Initializer {
 		// ProgessBar listener - what to do when timer runs out
 		// -----------------------------------------------------------------------
 		progressBar.progressProperty().addListener(e -> {
-			
-			// if timer runs out
+
 			if (progressBar.getProgress() == 0) {
+
+				Player p = GameboardWindow._players.get(GameboardWindow.currentPlayerIndex);
 				
-				/* TODO if no player buzzed in, then go back to GameboardWindow
+				/* if no player buzzed in, then go back to GameboardWindow
 				   otherwise decrement balance of player who buzzed in
 				   if not all players have tried to answer, then repeat the question */
-				
-				gotoGameBoardWindow();
+				if (!(txtPlayerBuzzed.getText().equals(""))) {
+					
+					imgViewQuestion.setImage(imgSad);
+					
+					if (!(plyrsNotAnswered.isEmpty())) {
+						
+						// decrement player's balance, update score text
+						p.setCurrentScore(p.getCurrentScore() - question.getValue());
+						PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
+						
+						// replay question
+						disableNodes();
+						tfAnswerField.clear();
+						txtPlayerBuzzed.setText("");
+						imgViewQuestion.setImage(imgHappy);
+						timer.stop();
+						startTimer();
+						
+					} else {
+						
+						// decrement player's balance, update score text
+						p.setCurrentScore(p.getCurrentScore() - question.getValue());
+						PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
+						gotoGameBoardWindow();
+					}
+			
+				} else {
+
+					gotoGameBoardWindow();
+				}
 			}
 		});
 		
@@ -203,7 +232,7 @@ public class QuestionWindow extends VBox implements Initializer {
 	// enable these nodes when a player buzzes in
 	private void enableNodes() {
 		
-		btnOK.setDisable(false);
+		btnOk.setDisable(false);
 		tfAnswerField.setDisable(false);
 		
 		if (GameboardWindow.numPlayers != 1)
@@ -213,7 +242,7 @@ public class QuestionWindow extends VBox implements Initializer {
 	// reset/disable these nodes
 	private void disableNodes() {
 		
-		btnOK.setDisable(true);
+		btnOk.setDisable(true);
 		tfAnswerField.setDisable(true);
 		
 		if (GameboardWindow.numPlayers != 1)
