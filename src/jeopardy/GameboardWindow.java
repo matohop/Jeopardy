@@ -37,7 +37,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	public static ArrayList<Player> _players;
 	public static int               numPlayers;
 	public int                      counter;
-	public int                      turnIndex, currentPlayerIndex;
+	public static int               turnIndex, currentPlayerIndex;
 	public boolean                  isInProgress;
 	
 	public static Stage             questionStage;
@@ -225,10 +225,10 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	// -----------------------------------------------------------------------
 	class PlayerUsernameAndScore extends HBox implements Initializer {
 		
-		public VBox[]  vBoxPresentPlayer;
-		public Label[] lblPlayerUsername;
-		public Text[]  txtPlayerScore;
-		private String txt;
+		public VBox[]        vBoxPresentPlayer;
+		public Label[]       lblPlayerUsername;
+		public static Text[] txtPlayerScore;
+		public String        flashingTxt;
 		
 		PlayerUsernameAndScore() {
 			
@@ -240,7 +240,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			// alignment/padding/spacing
 			this.setAlignment(Pos.CENTER);
 			this.setPadding(new Insets(10));
-			this.setSpacing(50);
+			this.setSpacing(10);
 			this.setStyle("-fx-border-color: black");
 			
 			init();
@@ -255,7 +255,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			for (int i = 0; i < _players.size(); i++) {
 				
 				lblPlayerUsername[i] = new Label(_players.get(i).getUsername());
-				txtPlayerScore[i]    = new Text("$" + Integer.toString(_players.get(i).getCurrentScore()));
+				txtPlayerScore[i]    = new Text("$0");
 				vBoxPresentPlayer[i] = new VBox(lblPlayerUsername[i], txtPlayerScore[i]);
 				
 				// set font/color/alignment
@@ -263,6 +263,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				txtPlayerScore[i].setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14));
 				txtPlayerScore[i].setFill(Color.GREEN);
 				vBoxPresentPlayer[i].setAlignment(Pos.CENTER);
+				vBoxPresentPlayer[i].setPrefWidth(100);
 				
 				// add label/text nodes to HBox
 				this.getChildren().add(vBoxPresentPlayer[i]);
@@ -321,11 +322,11 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				while (isInProgress) {
 					
 					if (lblPlayerUsername[turnIndex].getText().equals(""))
-						txt = _players.get(turnIndex).getUsername();
+						flashingTxt = _players.get(turnIndex).getUsername();
 					else
-						txt = "";
+						flashingTxt = "";
 					
-					Platform.runLater(() -> lblPlayerUsername[turnIndex].setText(txt));
+					Platform.runLater(() -> lblPlayerUsername[turnIndex].setText(flashingTxt));
 					
 					try {
 						
