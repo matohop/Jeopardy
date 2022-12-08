@@ -6,6 +6,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -46,13 +47,15 @@ public class QuestionWindow extends VBox implements Initializer {
 		imgViewQuestion  = new ImageView(imgHappy);
 		progressBar      = new ProgressBar();
 		timer            = new Timeline();
-		questionScene    = new Scene(this);
+		questionScene    = new Scene(this, 600, 350);
 		plyrsNotAnswered = new ArrayList<>(GameboardWindow._players);
 		
 		txtClue.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 15));
 		txtPlayerBuzzed.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14));
 
+		this.setAlignment(Pos.CENTER);
 		this.setPadding(new Insets(5));
+		this.setSpacing(5);
 		
 		init();
 	}
@@ -60,10 +63,8 @@ public class QuestionWindow extends VBox implements Initializer {
 	@Override
 	public void init() {
 		
-		// disable these nodes
-		btnOK.setDisable(true);
-		tfAnswerField.setDisable(true);
-		txtPlayerBuzzed.setVisible(false);
+		// disable QuestionWindow nodes
+		disableNodes();
 		
 		// add nodes to VBox
 		this.getChildren().addAll(imgViewQuestion, txtClue, tfAnswerField, btnOK, txtPlayerBuzzed, progressBar);
@@ -73,9 +74,6 @@ public class QuestionWindow extends VBox implements Initializer {
 		
 		// start countdown
 		startTimer();
-		
-
-		// Actions/Listeners -------------------------------------------------------------
 		
 		// -----------------------------------------------------------------------
 		// When a player buzzes in
@@ -132,7 +130,9 @@ public class QuestionWindow extends VBox implements Initializer {
 				btnOK.fire();
 		});
 		
+		// -----------------------------------------------------------------------
 		// Button action - OK
+		// -----------------------------------------------------------------------
 		btnOK.setOnAction(e -> {
 			
 			timer.stop();
@@ -140,7 +140,7 @@ public class QuestionWindow extends VBox implements Initializer {
 			Player p = GameboardWindow._players.get(GameboardWindow.currentPlayerIndex);
 			
 			// if answered correct
-			if (tfAnswerField.getText().toLowerCase().equals(question.getAnswer())) {
+			if (tfAnswerField.getText().toLowerCase().equals(question.getAnswer().toLowerCase())) {
 				
 				// increment player's balance, set player's turn, update score text
 				p.setCurrentScore(p.getCurrentScore() + question.getValue());
@@ -173,7 +173,9 @@ public class QuestionWindow extends VBox implements Initializer {
 			}
 		});
 		
+		// -----------------------------------------------------------------------
 		// ProgessBar listener - what to do when timer runs out
+		// -----------------------------------------------------------------------
 		progressBar.progressProperty().addListener(e -> {
 			
 			// if timer runs out
@@ -190,7 +192,7 @@ public class QuestionWindow extends VBox implements Initializer {
 	} // end init
 	
 	private void onKeyPressed(int idx) {
-		
+
 		imgViewQuestion.setImage(imgHappy);
 		enableNodes();
 		plyrsNotAnswered.remove(GameboardWindow._players.get(idx));
@@ -208,6 +210,7 @@ public class QuestionWindow extends VBox implements Initializer {
 			txtPlayerBuzzed.setVisible(true);
 	}
 	
+	// reset/disable these nodes
 	private void disableNodes() {
 		
 		btnOK.setDisable(true);

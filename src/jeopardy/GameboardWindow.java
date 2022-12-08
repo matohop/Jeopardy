@@ -201,7 +201,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			String sql = "SELECT category_name "
 			           + "FROM Categories "
 			           + "ORDER BY random() "
-			           + "LIMIT 7";
+			           + "LIMIT 6";
 				
 			Statement stmt = Main.getConnection().createStatement();
 			ResultSet rs   = stmt.executeQuery(sql);

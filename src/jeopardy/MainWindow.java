@@ -46,6 +46,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		playersAdded = FXCollections.observableArrayList();
 		populateLvPlayers();
 		lvPlayers      = new ListView<>(players);
+		lvPlayers.getSelectionModel().selectFirst();
 		lvPlayersAdded = new ListView<>();
 
 		lvPlayers.setMaxHeight(100);
