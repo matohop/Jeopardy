@@ -44,10 +44,12 @@ public class MainWindow extends BorderPane implements Initializer {
 		// ListViews
 		players      = FXCollections.observableArrayList();
 		playersAdded = FXCollections.observableArrayList();
+		
 		populateLvPlayers();
+
 		lvPlayers      = new ListView<>(players);
-		lvPlayers.getSelectionModel().selectFirst();
 		lvPlayersAdded = new ListView<>();
+		lvPlayers.getSelectionModel().selectFirst();
 
 		lvPlayers.setMaxHeight(100);
 		lvPlayersAdded.setMaxHeight(100);
@@ -199,6 +201,7 @@ public class MainWindow extends BorderPane implements Initializer {
 			players.removeAll(players);
 			
 			String    sql  = "SELECT user_name FROM Players";
+//			String    sql  = "SELECT user_name FROM Players WHERE useable = 0";
 			Statement stmt = Main.getConnection().createStatement();
 			ResultSet rs   = stmt.executeQuery(sql);
 			
