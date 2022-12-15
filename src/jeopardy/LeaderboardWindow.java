@@ -75,7 +75,7 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 		try {
 			
 			String sql = "SELECT user_name, high_score " +
-			             "FROM Players "+
+			             "FROM Players " +
 			             "ORDER BY high_score " +
 			             "DESC LIMIT 10";
 			
