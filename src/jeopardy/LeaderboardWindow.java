@@ -54,8 +54,8 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 			tf.setPrefWidth(100);
 			tf.setEditable(false);
 			
-			this.add(new Label("#" + i + ": "), 0, i);
-			this.add(new Label(entry.getValue()), 1, i);
+			this.add(new Label("#" + i + ":"), 0, i);
+			this.add(new Label(entry.getValue() + " "), 1, i);
 			this.add(tf, 2, i);
 		}
 
