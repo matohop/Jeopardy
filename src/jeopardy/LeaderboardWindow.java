@@ -15,8 +15,8 @@ import java.sql.Statement;
 
 public class LeaderboardWindow extends GridPane implements Initializer {
 
-	private Button     btnBack;
-	private ResultSet  resultSet;
+	private Button    btnBack;
+	private ResultSet resultSet;
 	
 	public LeaderboardWindow() {
 		
@@ -87,6 +87,4 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 			System.out.println(sqlex.getMessage());
 		}
 	}
-	
-	public ResultSet getResultSet() { return resultSet; }
 }
