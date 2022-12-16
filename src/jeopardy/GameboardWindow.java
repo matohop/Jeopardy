@@ -115,7 +115,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						                          rs.getString("answer"),   rs.getInt("value"),       rs.getString("type"));
 						
 						// if Daily Double
-						if (q.getType().equals("DD")) {
+						if ( q.getType().equals("DD") ) {
 
 							wagerStage.setScene(new WagerWindow(q).getWagerScene());
 							wagerStage.setTitle("Daily Double");
@@ -320,8 +320,11 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			
 			// start flashing current player
 			try {
+				
 				startFlashingAnimation();
+				
 			} catch (InterruptedException e) {
+
 				e.printStackTrace();
 			}
 		}

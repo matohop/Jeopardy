@@ -117,7 +117,8 @@ public class QuestionWindow extends VBox implements Initializer {
 						case BACK_SPACE: if (plyrsNotAnswered.contains(GameboardWindow._players.get(2))) { onKeyPressed(2); break; }
 						default: break;
 					}
-				}
+					
+				} else {}
 				
 			} catch (Exception ex) {
 				
@@ -255,9 +256,9 @@ public class QuestionWindow extends VBox implements Initializer {
 
 		imgViewQuestion.setImage(imgHappy);
 		enableNodes();
-
-		plyrsNotAnswered.remove(GameboardWindow._players.get(idx));
+		
 		txtPlayerBuzzed.setText(GameboardWindow._players.get(idx).getUsername() + " answered!");
+		plyrsNotAnswered.remove(GameboardWindow._players.get(idx));
 		GameboardWindow.currentPlayerIndex = idx;
 	}
 	

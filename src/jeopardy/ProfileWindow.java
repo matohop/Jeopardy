@@ -61,7 +61,7 @@ public class ProfileWindow extends GridPane implements Initializer {
 			if (username.equals("")) {
 				
 				// if username not empty and doesn't exist
-				if (!(newUsername.isEmpty()) && !(MainWindow.players.contains(newUsername))) {
+				if ( !(newUsername.isEmpty()) && !(MainWindow.players.contains(newUsername)) ) {
 					
 					// INSERT username into database
 					try {
@@ -84,7 +84,7 @@ public class ProfileWindow extends GridPane implements Initializer {
 				}
 			
 			// editing/updating existing profile
-			} else if (!(newUsername.isEmpty()) && !(MainWindow.players.contains(newUsername))) {
+			} else if ( !(newUsername.isEmpty()) && !(MainWindow.players.contains(newUsername)) ) {
 
 				try {
 					

@@ -128,7 +128,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		// Button action - Start Game
 		btnStartGame.setOnAction((ActionEvent e) -> {
 			
-			if (!(playersAdded.size() == 0)) {
+			if (playersAdded.size() !=  0) {
 				
 				Main.getPrimaryStage().setScene(new Scene(new GameboardWindow(), 741, 795));
 				Main.getPrimaryStage().setTitle("Gameboard");
@@ -153,7 +153,7 @@ public class MainWindow extends BorderPane implements Initializer {
 			// get the player selected
 			String player = lvPlayers.getSelectionModel().getSelectedItem();
 			
-			if (!(player == null) && playersAdded.size() < 3) {
+			if (player != null && playersAdded.size() < 3) {
 				
 				// add player to the playersAdded ArrayList
 				playersAdded.add(player);
@@ -172,7 +172,7 @@ public class MainWindow extends BorderPane implements Initializer {
 			// get the player selected
 			String player = lvPlayersAdded.getSelectionModel().getSelectedItem();
 			
-			if (!(player == null)) {
+			if (player != null) {
 				
 				// add player to the players ArrayList
 				players.add(player);
@@ -188,7 +188,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		// ListView action - double click item
 		lvPlayers.setOnMouseClicked((MouseEvent me) -> {
 			
-			if ((me.getClickCount() == 2) && (lvPlayers.getSelectionModel().getSelectedItem() != null)) {
+			if ( (me.getClickCount() == 2) && (lvPlayers.getSelectionModel().getSelectedItem() != null) ) {
 				
 				// retrieve selected player info from database and open in ViewEditProfileWindow
 				Main.getPrimaryStage().setScene(new Scene(new ViewEditProfileWindow(lvPlayers.getSelectionModel().getSelectedItem())));
