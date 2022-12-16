@@ -32,12 +32,12 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	public Button                   btnQuitGame;
 	public GridPane                 gridPane;
 	public PlayerUsernameAndScore   playerUsernameAndScore;
-	public ArrayList<String>        categories;
+	public Text                     txtPlayerTurn;
+	public static ArrayList<String> categories;
 	public static ArrayList<Player> _players;
 	public static int               numPlayers;
 	public int                      counter;
 	public static int               turnIndex, currentPlayerIndex;
-	public static volatile boolean  isInProgress;
 	
 	public static Stage             questionStage, wagerStage;
 	
@@ -47,14 +47,16 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		btnQuitGame            = new Button("Quit Game");
 		gridPane               = new GridPane();
 		playerUsernameAndScore = new PlayerUsernameAndScore();
+		txtPlayerTurn          = new Text();
 		categories             = new ArrayList<>();
 		numPlayers             = _players.size();
 		questionStage          = new Stage();
 		wagerStage             = new Stage();
 		counter                = 0;
 		turnIndex              = 0;
-		isInProgress           = true;
 		
+		txtPlayerTurn.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 18));
+		txtPlayerTurn.setFill(Color.GREEN);
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
 		GridPane.setHalignment(btnQuitGame, HPos.RIGHT);
@@ -145,8 +147,9 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			}
 		}
 		
-		// add Quit Game button
+		// add Quit Game button and flashing text
 		gridPane.add(btnQuitGame, 5, 6);
+		gridPane.add(txtPlayerTurn, 3, 6);
 		
 		getRandomCategories();
 		
@@ -160,7 +163,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		btnQuitGame.setOnAction((ActionEvent e) -> {
 			
 			// stop animation thread
-			isInProgress = false;
+			PlayerUsernameAndScore.isInProgress = false;
 
 			Main.gotoPrimaryScene();
 		});
@@ -261,10 +264,11 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	// -----------------------------------------------------------------------
 	class PlayerUsernameAndScore extends HBox implements Initializer {
 		
-		public VBox[]        vBoxPresentPlayer;
-		public Label[]       lblPlayerUsername;
-		public static Text[] txtPlayerScore;
-		public String        flashingTxt;
+		public VBox[]           vBoxPresentPlayer;
+		public Label[]          lblPlayerUsername;
+		public static Text[]    txtPlayerScore;
+		public String           flashingTxt;
+		static volatile boolean isInProgress;
 		
 		PlayerUsernameAndScore() {
 			
@@ -272,6 +276,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			vBoxPresentPlayer = new VBox[MainWindow.playersAdded.size()];
 			lblPlayerUsername = new Label[MainWindow.playersAdded.size()];
 			txtPlayerScore    = new Text[MainWindow.playersAdded.size()];
+			isInProgress      = true;
 			
 			// alignment/padding/spacing
 			this.setAlignment(Pos.CENTER);
@@ -356,17 +361,17 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			new Thread(() -> {
 		
 				while (isInProgress) {
-					
-					if (lblPlayerUsername[turnIndex].getText().equals(""))
+
+					if (txtPlayerTurn.getText().equals(""))
 						flashingTxt = _players.get(turnIndex).getUsername();
 					else
 						flashingTxt = "";
-					
-					Platform.runLater(() -> lblPlayerUsername[turnIndex].setText(flashingTxt));
+
+					Platform.runLater(() -> txtPlayerTurn.setText(flashingTxt));
 					
 					try {
 						
-						Thread.sleep(1000);
+						Thread.sleep(500);
 						
 					} catch (InterruptedException e) {
 						

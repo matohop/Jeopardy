@@ -144,14 +144,13 @@ public class QuestionWindow extends VBox implements Initializer {
 				
 				if (isCorrect())
 					incrementBalance(p);
-				else
+				else 
 					decrementBalance(p);
 
 				gotoGameBoardWindow();
-			}
 			
 			// REG type
-			else {
+			} else {
 				
 				if (isCorrect()) {
 
@@ -171,9 +170,8 @@ public class QuestionWindow extends VBox implements Initializer {
 						tfAnswerField.clear();
 						txtPlayerBuzzed.setText("");
 						startTimer();
-					}
 
-					else
+					} else
 						gotoGameBoardWindow();
 				}
 			}
@@ -191,15 +189,10 @@ public class QuestionWindow extends VBox implements Initializer {
 				
 				if (isDailyDouble()) {
 					
-					if (isCorrect())
-						incrementBalance(p);
-					else
-						decrementBalance(p);
-
+					decrementBalance(p);
 					gotoGameBoardWindow();
-				}
-				
-				else {
+
+				} else {
 					
 					/* if no player buzzed in, then go back to GameboardWindow
 					   otherwise decrement balance of player who buzzed in
@@ -224,11 +217,9 @@ public class QuestionWindow extends VBox implements Initializer {
 							decrementBalance(p);
 							gotoGameBoardWindow();
 						}
-				
-					} else {
 
+					} else
 						gotoGameBoardWindow();
-					}
 				}
 			}
 		});
@@ -251,11 +242,6 @@ public class QuestionWindow extends VBox implements Initializer {
 		
 		p.setCurrentScore(p.getCurrentScore() - question.getValue());
 		PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
-		
-		// increment current player index, wrap around if overflow
-		GameboardWindow.currentPlayerIndex++;
-		GameboardWindow.turnIndex = GameboardWindow.currentPlayerIndex % GameboardWindow.numPlayers;
-		
 	}
 	
 	private void onKeyPressed(int idx) {
