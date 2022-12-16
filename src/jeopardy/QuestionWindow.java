@@ -72,6 +72,14 @@ public class QuestionWindow extends VBox implements Initializer {
 		// set ProgressBar width
 		progressBar.prefWidthProperty().bind(this.widthProperty());
 		
+		// if DD, change question value
+		if (isDailyDouble()) {
+			
+			question.setValue(WagerWindow.wagerAmount);
+			enableNodes();
+			questionScene.setOnKeyPressed(null);
+		}
+		
 		// start countdown
 		startTimer();
 		
@@ -103,15 +111,12 @@ public class QuestionWindow extends VBox implements Initializer {
 					
 					switch(e.getCode()) {
 					
-						case SHIFT: if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) { onKeyPressed(0); break; }
-						case SPACE: if (plyrsNotAnswered.contains(GameboardWindow._players.get(1))) { onKeyPressed(1); break; }
-						case ENTER: if (plyrsNotAnswered.contains(GameboardWindow._players.get(2))) { onKeyPressed(2); break; }
+						case SHIFT:      if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) { onKeyPressed(0); break; }
+						case SPACE:      if (plyrsNotAnswered.contains(GameboardWindow._players.get(1))) { onKeyPressed(1); break; }
+						case BACK_SPACE: if (plyrsNotAnswered.contains(GameboardWindow._players.get(2))) { onKeyPressed(2); break; }
 						default: break;
 					}
 				}
-				
-				// disable buzzing in
-				//questionScene.setOnKeyPressed(null);
 				
 			} catch (Exception ex) {
 				
@@ -132,40 +137,45 @@ public class QuestionWindow extends VBox implements Initializer {
 		btnOk.setOnAction(e -> {
 			
 			timer.stop();
-			
 			Player p = GameboardWindow._players.get(GameboardWindow.currentPlayerIndex);
 			
-			// if answered correct
-			if (tfAnswerField.getText().toLowerCase().equals(question.getAnswer().toLowerCase())) {
+			// DD type
+			if (isDailyDouble()) {
 				
-				// increment player's balance, set player's turn, update score text
-				p.setCurrentScore(p.getCurrentScore() + question.getValue());
-				GameboardWindow.turnIndex = GameboardWindow.currentPlayerIndex;
-				PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.turnIndex].setText(String.format("$%,d", p.getCurrentScore()));
-				
-				gotoGameBoardWindow();
-				
-			// answered wrong
-			} else {
-				
-				imgViewQuestion.setImage(imgSad);
-				
-				// decrement player's balance, update score text
-				p.setCurrentScore(p.getCurrentScore() - question.getValue());
-				PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
-				
-				// if not all players have tried to answer, then repeat question
-				if (!(plyrsNotAnswered.isEmpty())) {
-					
-					disableNodes();
-					tfAnswerField.clear();
-					txtPlayerBuzzed.setText("");
-					startTimer();
-				}
-				
-				// otherwise go to GameboardWindow
+				if (isCorrect())
+					incrementBalance(p);
 				else
+					decrementBalance(p);
+
+				gotoGameBoardWindow();
+			}
+			
+			// REG type
+			else {
+				
+				if (isCorrect()) {
+
+					incrementBalance(p);
 					gotoGameBoardWindow();
+					
+				// answered wrong
+				} else {
+
+					decrementBalance(p);
+					imgViewQuestion.setImage(imgSad);
+
+					// if not all players have tried to answer, then repeat question
+					if ( !(plyrsNotAnswered.isEmpty()) ) {
+						
+						disableNodes();
+						tfAnswerField.clear();
+						txtPlayerBuzzed.setText("");
+						startTimer();
+					}
+
+					else
+						gotoGameBoardWindow();
+				}
 			}
 		});
 		
@@ -179,41 +189,74 @@ public class QuestionWindow extends VBox implements Initializer {
 				timer.stop();
 				Player p = GameboardWindow._players.get(GameboardWindow.currentPlayerIndex);
 				
-				/* if no player buzzed in, then go back to GameboardWindow
-				   otherwise decrement balance of player who buzzed in
-				   if not all players have tried to answer, then repeat the question */
-				if (!(txtPlayerBuzzed.getText().equals(""))) {
+				if (isDailyDouble()) {
 					
-					imgViewQuestion.setImage(imgSad);
-					
-					if (!(plyrsNotAnswered.isEmpty())) {
-						
-						// decrement player's balance, update score text
-						p.setCurrentScore(p.getCurrentScore() - question.getValue());
-						PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
-						
-						// replay question
-						disableNodes();
-						tfAnswerField.clear();
-						txtPlayerBuzzed.setText("");
-						startTimer();
-						
-					} else {
-						
-						// decrement player's balance, update score text
-						p.setCurrentScore(p.getCurrentScore() - question.getValue());
-						PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
-						gotoGameBoardWindow();
-					}
-			
-				} else {
+					if (isCorrect())
+						incrementBalance(p);
+					else
+						decrementBalance(p);
 
 					gotoGameBoardWindow();
+				}
+				
+				else {
+					
+					/* if no player buzzed in, then go back to GameboardWindow
+					   otherwise decrement balance of player who buzzed in
+					   if not all players have tried to answer, then repeat the question */
+					if ( !(txtPlayerBuzzed.getText().equals("")) ) {
+						
+						imgViewQuestion.setImage(imgSad);
+						
+						if ( !(plyrsNotAnswered.isEmpty()) ) {
+							
+							// decrement player's balance, update score text
+							decrementBalance(p);
+							
+							// replay question
+							disableNodes();
+							tfAnswerField.clear();
+							txtPlayerBuzzed.setText("");
+							startTimer();
+							
+						} else {
+
+							decrementBalance(p);
+							gotoGameBoardWindow();
+						}
+				
+					} else {
+
+						gotoGameBoardWindow();
+					}
 				}
 			}
 		});
 		
 	} // end init
+	
+	
+	// increment player's balance, set player's turn, update score text
+	private void incrementBalance(Player p) {
+		
+		p.setCurrentScore(p.getCurrentScore() + question.getValue());
+		p.setNumQuestionsCorrect(p.getNumQuestionsCorrect() + 1);
+		
+		GameboardWindow.turnIndex = GameboardWindow.currentPlayerIndex;
+		PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.turnIndex].setText(String.format("$%,d", p.getCurrentScore()));
+	}
+	
+	// decrement player's balance, set player's turn, update score text
+	private void decrementBalance(Player p) {
+		
+		p.setCurrentScore(p.getCurrentScore() - question.getValue());
+		PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
+		
+		// increment current player index, wrap around if overflow
+		GameboardWindow.currentPlayerIndex++;
+		GameboardWindow.turnIndex = GameboardWindow.currentPlayerIndex % GameboardWindow.numPlayers;
+		
+	}
 	
 	private void onKeyPressed(int idx) {
 
@@ -249,7 +292,7 @@ public class QuestionWindow extends VBox implements Initializer {
 	private void startTimer() {
 		
 		progressBar.setProgress(1);
-		timer.getKeyFrames().add(new KeyFrame(Duration.seconds(10), new KeyValue(progressBar.progressProperty(), 0)));
+		timer.getKeyFrames().add(new KeyFrame(Duration.seconds(15), new KeyValue(progressBar.progressProperty(), 0)));
 		timer.play();
 	}
 	
@@ -258,6 +301,10 @@ public class QuestionWindow extends VBox implements Initializer {
 		GameboardWindow.questionStage.close();
 		Main.getPrimaryStage().show();
 	}
+	
+	private boolean isCorrect() { return tfAnswerField.getText().toLowerCase().equals(question.getAnswer().toLowerCase()); }
+	
+	private boolean isDailyDouble() { return question.getType().equals("DD"); };
 	
 	public void answeredCorrectImage() { imgViewQuestion.setImage(new Image("resources/images/trebek_happy.jpg")); }
 	

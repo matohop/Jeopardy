@@ -136,9 +136,14 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		// Button action - View Leaderboard
 		btnViewLeaderboard.setOnAction((ActionEvent e) -> {
+			
+			LeaderboardWindow lb = new LeaderboardWindow();
+			
+			if (lb.players.size() != 0) {
 
-			Main.getPrimaryStage().setScene(new Scene(new LeaderboardWindow()));
-			Main.getPrimaryStage().setTitle("Leaderboard");
+				Main.getPrimaryStage().setScene(new Scene(lb));
+				Main.getPrimaryStage().setTitle("Leaderboard");
+			}
 		});
 		
 		// Button action - ">"
@@ -201,7 +206,6 @@ public class MainWindow extends BorderPane implements Initializer {
 			players.removeAll(players);
 			
 			String    sql  = "SELECT user_name FROM Players";
-//			String    sql  = "SELECT user_name FROM Players WHERE useable = 0";
 			Statement stmt = Main.getConnection().createStatement();
 			ResultSet rs   = stmt.executeQuery(sql);
 			

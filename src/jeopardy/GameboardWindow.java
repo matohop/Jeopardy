@@ -37,9 +37,9 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	public static int               numPlayers;
 	public int                      counter;
 	public static int               turnIndex, currentPlayerIndex;
-	public boolean                  isInProgress;
+	public static volatile boolean  isInProgress;
 	
-	public static Stage             questionStage;
+	public static Stage             questionStage, wagerStage;
 	
 	GameboardWindow() {
 		
@@ -50,6 +50,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		categories             = new ArrayList<>();
 		numPlayers             = _players.size();
 		questionStage          = new Stage();
+		wagerStage             = new Stage();
 		counter                = 0;
 		turnIndex              = 0;
 		isInProgress           = true;
@@ -107,16 +108,22 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						
 						// if Daily Double
 						if (q.getType().equals("DD")) {
-							
-							/* TODO */
+
+							wagerStage.setScene(new WagerWindow(q).getWagerScene());
+							wagerStage.setTitle("Daily Double");
+							Main.getPrimaryStage().close();
+							wagerStage.show();
 						}
 						
-						questionStage.setScene(new QuestionWindow(q).getQuestionScene());
-						questionStage.setTitle("Clue");
-						
-						// close Gameboard Stage and display Question Stage
-						Main.getPrimaryStage().close();
-						questionStage.show();
+						else {
+
+							questionStage.setScene(new QuestionWindow(q).getQuestionScene());
+							questionStage.setTitle("Clue");
+							
+							// close Gameboard Stage and display Question Stage
+							Main.getPrimaryStage().close();
+							questionStage.show();
+						}
 						
 						// disable button, increment counter
 						tile[_col][_row - 1].setDisable(true);
@@ -125,7 +132,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						// Game over
 						if (counter == 30) {
 							
-							/* TODO game over */
+							updatePlayerStats();
+							Main.gotoPrimaryScene();
 						}
 
 					} catch (SQLException sqlex) {
@@ -151,12 +159,10 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		// button action - Quit Game
 		btnQuitGame.setOnAction((ActionEvent e) -> {
 			
+			// stop animation thread
 			isInProgress = false;
-			
-			/* TODO update player stats */
-			
+
 			Main.gotoPrimaryScene();
-			
 		});
 	}
 	
@@ -217,6 +223,37 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		}
 		
 		createCategoryBoxes();
+	}
+	
+	private void updatePlayerStats() {
+		
+		for (int i = 0; i < _players.size(); i++) {
+			
+			try {
+				
+				// update profile statistics
+				String sql = "UPDATE Players "
+				           + "SET high_score = ?, num_games_played = ?, num_questions_correct = ? "
+				           + "WHERE player_ID = " + _players.get(i).getPlayerID();
+				
+				PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
+				
+				if (_players.get(i).getCurrentScore() > _players.get(i).getHighScore())
+					pstmt.setInt(1, _players.get(i).getCurrentScore());
+				else
+					pstmt.setInt(1, _players.get(i).getHighScore());
+				
+				pstmt.setInt(2, _players.get(i).getNumGamesPlayed() + 1);
+				pstmt.setInt(3, _players.get(i).getNumQuestionsCorrect());
+				pstmt.executeUpdate();
+				
+			} catch (SQLException sqlex) {
+				
+				System.out.println(sqlex.getMessage());
+			}
+			
+			System.out.println("Player stats updated");
+		}
 	}
 	
 	// -----------------------------------------------------------------------

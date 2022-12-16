@@ -33,6 +33,7 @@ public class ProfileWindow extends GridPane implements Initializer {
 		this.setPadding(new Insets(11, 12, 11, 12));
 		this.setHgap(5);
 		this.setVgap(5);
+		tfUsername.setPrefWidth(100);
 		GridPane.setHalignment(btnSave, HPos.RIGHT);
 		
 		init();

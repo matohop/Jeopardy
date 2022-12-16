@@ -7,13 +7,13 @@ import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 
 public class ViewEditProfileWindow extends ProfileWindow {
 	
 	public Label     lblHighScore, lblnNumGamesPlayed, lblAnsweredCorrect;
-	public TextField tfHighScore, tfNumGamesPlayed, tfAnsweredCorrect;
+	public Text      txtHighScore, txtNumGamesPlayed, txtAnsweredCorrect;
 	public Button    btnEdit, btnDelete;
 	
 	public ViewEditProfileWindow(String _username) {
@@ -21,13 +21,13 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		tfUsername.setText(_username);
 		username = _username;
 		
-		lblHighScore       = new Label("High Score:");
-		lblnNumGamesPlayed = new Label("Games Played:");
-		lblAnsweredCorrect = new Label("Answered Correct:");
+		lblHighScore       = new Label("High Score: ");
+		lblnNumGamesPlayed = new Label("Games Played: ");
+		lblAnsweredCorrect = new Label("Answered Correct: ");
 
-		tfHighScore       = new TextField();
-		tfNumGamesPlayed  = new TextField();
-		tfAnsweredCorrect = new TextField();
+		txtHighScore       = new Text();
+		txtNumGamesPlayed  = new Text();
+		txtAnsweredCorrect = new Text();
 		
 		btnEdit   = new Button("Edit");
 		btnDelete = new Button("Delete");
@@ -40,18 +40,15 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		
 		// disable these nodes
 		tfUsername.setDisable(true);
-		tfHighScore.setDisable(true);
-		tfNumGamesPlayed.setDisable(true);
-		tfAnsweredCorrect.setDisable(true);
 		btnSave.setDisable(true);
 		btnDelete.setDisable(true);
 
 		this.add(lblHighScore, 0, 1);
-		this.add(tfHighScore, 1, 1);
+		this.add(txtHighScore, 1, 1);
 		this.add(lblnNumGamesPlayed, 0, 2);
-		this.add(tfNumGamesPlayed, 1, 2);
+		this.add(txtNumGamesPlayed, 1, 2);
 		this.add(lblAnsweredCorrect, 0, 3);
-		this.add(tfAnsweredCorrect, 1, 3);
+		this.add(txtAnsweredCorrect, 1, 3);
 		this.add(btnEdit, 2, 4);
 		this.add(btnDelete, 2, 0);
 		
@@ -66,9 +63,9 @@ public class ViewEditProfileWindow extends ProfileWindow {
 			pstmt.setString(1, _username);
 			ResultSet rs = pstmt.executeQuery();
 			
-			tfHighScore.setText(Integer.toString(rs.getInt("high_score")));
-			tfNumGamesPlayed.setText(Integer.toString(rs.getInt("num_games_played")));
-			tfAnsweredCorrect.setText(Integer.toString(rs.getInt("num_questions_correct")));
+			txtHighScore.setText("  " + Integer.toString(rs.getInt("high_score")));
+			txtNumGamesPlayed.setText("  " + Integer.toString(rs.getInt("num_games_played")));
+			txtAnsweredCorrect.setText("  " + Integer.toString(rs.getInt("num_questions_correct")));
 			
 		} catch (SQLException e) {
 		

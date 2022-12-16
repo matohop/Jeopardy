@@ -18,7 +18,7 @@ import java.util.TreeMap;
 
 public class LeaderboardWindow extends GridPane implements Initializer {
 
-	public static Map<Integer, String> players;
+	public Map<Integer, String> players;
 	public Button btnBack;
 	
 	public LeaderboardWindow() {
@@ -70,14 +70,15 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 	} // end init
 	
 	// query the leading players and add to TreeMap
-	public static void populateLeadingPlayers() {
+	public void populateLeadingPlayers() {
 		
 		try {
 			
-			String sql = "SELECT user_name, high_score " +
-			             "FROM Players " +
-			             "ORDER BY high_score " +
-			             "DESC LIMIT 10";
+			String sql = "SELECT user_name, high_score "
+			           + "FROM Players "
+			           + "WHERE high_score != 0 "
+			           + "ORDER BY high_score "
+			           + "DESC LIMIT 10";
 			
 			Statement stmt = Main.getConnection().createStatement();
 			ResultSet rs   = stmt.executeQuery(sql);

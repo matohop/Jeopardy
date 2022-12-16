@@ -4,22 +4,29 @@ import javafx.event.ActionEvent;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 
 public class WagerWindow extends GridPane implements Initializer {
 	
-	public Label     lblPrompt;
-	public TextField tfWagerAmount;
-	public Button    btnOk;
+	public  Label      lblPrompt;
+	public  TextField  tfWagerAmount;
+	public  static int wagerAmount;
+	public  Button     btnOk;
+	private Scene      wagerScene;
+	private Question   question;
 	
-	public WagerWindow() {
+	public WagerWindow(Question q) {
 		
-		lblPrompt     = new Label("Enter wager amount: ");
+		lblPrompt     = new Label("Enter wager amount:");
 		tfWagerAmount = new TextField();
 		btnOk         = new Button("Ok");
+		wagerScene    = new Scene(this);
+		question      = q;
 		
 		// set alignment/spacing
 		this.setAlignment(Pos.CENTER);
@@ -38,13 +45,29 @@ public class WagerWindow extends GridPane implements Initializer {
 		this.add(tfWagerAmount, 1, 0);
 		this.add(btnOk, 1, 1);
 		
-		// Button action - Back
+		// Button action - Ok
 		btnOk.setOnAction((ActionEvent e) -> {
 			
-			int wagerAmount = Integer.parseInt(tfWagerAmount.getText());
+			int amt = Integer.parseInt(tfWagerAmount.getText());
 			
+			if (amt >= 200 && amt <= 1000) {
+				
+				wagerAmount = amt;
+				GameboardWindow.wagerStage.close();
+				GameboardWindow.questionStage.setScene(new QuestionWindow(question).getQuestionScene());
+				GameboardWindow.questionStage.setTitle("Clue");
+				GameboardWindow.questionStage.show();
+			}
+		});
+		
+		// fire OK Button if Enter key is pressed
+		tfWagerAmount.setOnKeyPressed(e -> {
 			
+			if (e.getCode() == KeyCode.ENTER)
+				btnOk.fire();
 		});
 	}
+	
+	public Scene getWagerScene() { return wagerScene; }
 
 }
