@@ -32,7 +32,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	public Button                   btnQuitGame;
 	public GridPane                 gridPane;
 	public PlayerUsernameAndScore   playerUsernameAndScore;
-	public Text                     txtPlayerTurn;
+	public Text                     txtPlayerTurn, txtAnswer;
 	public static ArrayList<String> categories;
 	public static ArrayList<Player> _players;
 	public static int               numPlayers;
@@ -48,6 +48,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		gridPane               = new GridPane();
 		playerUsernameAndScore = new PlayerUsernameAndScore();
 		txtPlayerTurn          = new Text();
+		txtAnswer              = new Text();
 		categories             = new ArrayList<>();
 		numPlayers             = _players.size();
 		questionStage          = new Stage();
@@ -57,8 +58,10 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		
 		txtPlayerTurn.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 20));
 		txtPlayerTurn.setFill(Color.GREEN);
+		txtAnswer.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 16));
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
+		GridPane.setHalignment(txtAnswer, HPos.CENTER);
 		GridPane.setHalignment(btnQuitGame, HPos.RIGHT);
 		this.setPadding(new Insets(3, 3, 3, 3));
 		
@@ -134,6 +137,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 						tile[_col][_row - 1].setDisable(true);
 						counter++;
 						
+						txtAnswer.setText(q.getAnswer());
+						
 						// Game over
 						if (counter == 30) {
 							
@@ -158,9 +163,10 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			Main.gotoPrimaryScene();
 		});
 		
-		// add Quit Game button and flashing text
+		// add Quit Game button, flashing text, answer
 		gridPane.add(btnQuitGame, 5, 6);
 		gridPane.add(txtPlayerTurn, 0, 6);
+		gridPane.add(txtAnswer, 1, 6);
 		
 		// add GridPane to center section of BorderPane
 		this.setCenter(gridPane);

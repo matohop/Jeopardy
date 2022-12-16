@@ -290,7 +290,7 @@ public class QuestionWindow extends VBox implements Initializer {
 	}
 	
 	private void gotoGameBoardWindow() {
-		
+
 		GameboardWindow.questionStage.close();
 		Main.getPrimaryStage().show();
 	}
