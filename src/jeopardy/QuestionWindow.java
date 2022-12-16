@@ -107,7 +107,7 @@ public class QuestionWindow extends VBox implements Initializer {
 						default: break;
 					}
 					
-				} else {
+				} else if (GameboardWindow.numPlayers == 3) {
 					
 					switch(e.getCode()) {
 					

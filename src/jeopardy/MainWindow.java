@@ -139,11 +139,11 @@ public class MainWindow extends BorderPane implements Initializer {
 			
 			LeaderboardWindow lb = new LeaderboardWindow();
 			
-			if (lb.players.size() != 0) {
+			// check that leaderboard is not empty
+			if ( !(lb.getChildren().get(0) instanceof Button) )
 
-				Main.getPrimaryStage().setScene(new Scene(lb));
-				Main.getPrimaryStage().setTitle("Leaderboard");
-			}
+					Main.getPrimaryStage().setScene(new Scene(lb));
+					Main.getPrimaryStage().setTitle("Leaderboard");
 		});
 		
 		// Button action - ">"

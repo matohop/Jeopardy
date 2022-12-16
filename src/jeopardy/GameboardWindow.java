@@ -164,7 +164,6 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			
 			// stop animation thread
 			PlayerUsernameAndScore.isInProgress = false;
-
 			Main.gotoPrimaryScene();
 		});
 	}
