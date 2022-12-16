@@ -166,7 +166,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		// add Quit Game button, flashing text, answer
 		gridPane.add(btnQuitGame, 5, 6);
 		gridPane.add(txtPlayerTurn, 0, 6);
-		gridPane.add(txtAnswer, 1, 6);
+		gridPane.add(txtAnswer, 1, 6, 4, 1);
 		
 		// add GridPane to center section of BorderPane
 		this.setCenter(gridPane);
@@ -243,7 +243,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				// update profile stats
 				String sql = "UPDATE Players "
 				           + "SET high_score = ?, num_games_played = ?, num_questions_correct = ? "
-				           + "WHERE player_ID = " + _players.get(i).getPlayerID();
+				           + "WHERE player_ID = ?";
 				
 				PreparedStatement pstmt = Main.getConnection().prepareStatement(sql);
 				
@@ -254,6 +254,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				
 				pstmt.setInt(2, _players.get(i).getNumGamesPlayed() + 1);
 				pstmt.setInt(3, _players.get(i).getNumQuestionsCorrect());
+				pstmt.setInt(4, _players.get(i).getPlayerID());
 				pstmt.executeUpdate();
 				
 			} catch (SQLException sqlex) {
