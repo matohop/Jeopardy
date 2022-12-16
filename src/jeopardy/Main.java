@@ -38,6 +38,7 @@ public class Main extends Application {
 			
 			Class.forName("org.sqlite.JDBC");
 			connection = DriverManager.getConnection("jdbc:sqlite:src/resources/jeopardy.db");
+//			connection = DriverManager.getConnection("jdbc:sqlite:src/resources/jeopardytest.db"); // for testing
 
 		} catch (Exception e) {
 			

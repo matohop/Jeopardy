@@ -45,19 +45,27 @@ public class WagerWindow extends GridPane implements Initializer {
 		this.add(tfWagerAmount, 1, 0);
 		this.add(btnOk, 1, 1);
 		
-		// Button action - Ok
+		// Button action - OK
 		btnOk.setOnAction((ActionEvent e) -> {
 			
-			int amt = Integer.parseInt(tfWagerAmount.getText());
-			
-			if (amt >= 200 && amt <= 1000) {
+			try {
 				
-				wagerAmount = amt;
-				GameboardWindow.wagerStage.close();
-				GameboardWindow.questionStage.setScene(new QuestionWindow(question).getQuestionScene());
-				GameboardWindow.questionStage.setTitle("Clue");
-				GameboardWindow.questionStage.show();
+				int amt = Integer.parseInt(tfWagerAmount.getText());
+				
+				if (amt >= 200 && amt <= 1000) {
+					
+					wagerAmount = amt;
+					GameboardWindow.wagerStage.close();
+					GameboardWindow.questionStage.setScene(new QuestionWindow(question).getQuestionScene());
+					GameboardWindow.questionStage.setTitle("Clue");
+					GameboardWindow.questionStage.show();
+				}
+				
+			} catch (Exception ex) {
+				
+				System.out.println(ex.getMessage());
 			}
+			
 		});
 		
 		// fire OK Button if Enter key is pressed

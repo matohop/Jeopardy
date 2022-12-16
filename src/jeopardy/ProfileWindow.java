@@ -47,8 +47,10 @@ public class ProfileWindow extends GridPane implements Initializer {
 		this.add(tfUsername, 1, 0);
 		this.add(btnCancel, 0, 4);
 		this.add(btnSave, 1, 4);
-
-		// Actions/Listeners -------------------------------------------------------------
+		
+		// -----------------------------------------------------------------------
+		// Actions/Listeners
+		// -----------------------------------------------------------------------
 
 		// Button action - Save
 		btnSave.setOnAction((ActionEvent e) -> {
@@ -83,8 +85,7 @@ public class ProfileWindow extends GridPane implements Initializer {
 			
 			// editing/updating existing profile
 			} else if (!(newUsername.isEmpty()) && !(MainWindow.players.contains(newUsername))) {
-				
-				// UPDATE username in database
+
 				try {
 					
 					// retrieve playerID to be updated

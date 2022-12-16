@@ -67,7 +67,7 @@ public class LeaderboardWindow extends GridPane implements Initializer {
 		
 	} // end init
 	
-	// query the leading players and add to TreeMap
+	// query the leading players
 	private void populateLeadingPlayers() {
 		
 		try {

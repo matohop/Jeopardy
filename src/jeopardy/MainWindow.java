@@ -44,13 +44,11 @@ public class MainWindow extends BorderPane implements Initializer {
 		// ListViews
 		players      = FXCollections.observableArrayList();
 		playersAdded = FXCollections.observableArrayList();
-		
 		populateLvPlayers();
 
 		lvPlayers      = new ListView<>(players);
 		lvPlayersAdded = new ListView<>();
 		lvPlayers.getSelectionModel().selectFirst();
-
 		lvPlayers.setMaxHeight(100);
 		lvPlayersAdded.setMaxHeight(100);
 		lvPlayers.setMaxWidth(130);
@@ -115,7 +113,10 @@ public class MainWindow extends BorderPane implements Initializer {
 		this.setCenter(hBoxCenter);
 		this.setBottom(hBoxBottom);
 		
-		// Actions/Listeners -------------------------------------------------------------
+		
+		// -----------------------------------------------------------------------
+		// Actions/Listeners 
+		// -----------------------------------------------------------------------
 
 		// Button action - Create Profile
 		btnCreateProfile.setOnAction((ActionEvent e) -> {
@@ -139,7 +140,7 @@ public class MainWindow extends BorderPane implements Initializer {
 			
 			LeaderboardWindow lb = new LeaderboardWindow();
 			
-			// check that leaderboard is not empty
+			// check that Leaderboard is not empty
 			if ( !(lb.getChildren().get(0) instanceof Button) )
 
 					Main.getPrimaryStage().setScene(new Scene(lb));
@@ -202,7 +203,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		try {
 			
-			// empty the ArrayList
+			// refresh the list of players
 			players.removeAll(players);
 			
 			String    sql  = "SELECT user_name FROM Players";

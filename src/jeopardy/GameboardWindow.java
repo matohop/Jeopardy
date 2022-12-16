@@ -55,7 +55,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		counter                = 0;
 		turnIndex              = 0;
 		
-		txtPlayerTurn.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 18));
+		txtPlayerTurn.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 20));
 		txtPlayerTurn.setFill(Color.GREEN);
 		gridPane.setHgap(3);
 		gridPane.setVgap(3);
@@ -88,12 +88,15 @@ public class GameboardWindow extends BorderPane implements Initializer {
 				final int _col = col;
 				final int _row = row + 1;
 				
-				// Actions/Listeners -------------------------------------------------------------
+				// -----------------------------------------------------------------------
+				// Actions/Listeners 
+				// -----------------------------------------------------------------------
 				
 				tile[col][row].setOnAction((ActionEvent e) -> {
 					
 					try {
 						
+						// query question info
 						String sql = "SELECT question_ID, category, clue, answer, value, type "
 						           + "FROM Questions "
 						           + "WHERE category = ? "
@@ -127,7 +130,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 							questionStage.show();
 						}
 						
-						// disable button, increment counter
+						// disable tile
 						tile[_col][_row - 1].setDisable(true);
 						counter++;
 						
@@ -147,11 +150,17 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			}
 		}
 		
+		// button action - Quit Game
+		btnQuitGame.setOnAction((ActionEvent e) -> {
+
+			// stop animation thread
+			PlayerUsernameAndScore.isInProgress = false;
+			Main.gotoPrimaryScene();
+		});
+		
 		// add Quit Game button and flashing text
 		gridPane.add(btnQuitGame, 5, 6);
-		gridPane.add(txtPlayerTurn, 3, 6);
-		
-		getRandomCategories();
+		gridPane.add(txtPlayerTurn, 0, 6);
 		
 		// add GridPane to center section of BorderPane
 		this.setCenter(gridPane);
@@ -159,18 +168,12 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		// add playerUsernameAndScore to top section of BorderPane
 		this.setTop(playerUsernameAndScore);
 		
-		// button action - Quit Game
-		btnQuitGame.setOnAction((ActionEvent e) -> {
-			
-			// stop animation thread
-			PlayerUsernameAndScore.isInProgress = false;
-			Main.gotoPrimaryScene();
-		});
+		getRandomCategories();
 	}
 	
+	// each category box contains a stackPane, rectangle, and label
 	private void createCategoryBoxes() {
-		
-		// each category box contains a stackPane, rectangle, and label
+
 		StackPane[] sp   = new StackPane[6];
 		Rectangle[] rect = new Rectangle[6];
 		Label[]     lbl  = new Label[6];
@@ -181,9 +184,9 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			sp[i]   = new StackPane();
 			lbl[i]  = new Label(categories.get(i));
 			
-			rect[i].setStyle("-fx-fill: #3251fc;");
+			rect[i].setStyle("-fx-fill: #3251fc;"); // color
 			
-			// set height/width of rectangle/stackpane
+			// set height/width of rectangle/stackPane
 			rect[i].widthProperty().bind(tile[0][1].widthProperty());
 			rect[i].setHeight(80);
 			sp[i].setPrefWidth(tile[0][1].getWidth());
@@ -195,7 +198,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			lbl[i].setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14.5));
 			lbl[i].setTextFill(Color.WHITE);
 
-			// add nodes to stackpane, gridpane
+			// add nodes to stackPane, gridPane
 			sp[i].getChildren().addAll(rect[i], lbl[i]);
 			gridPane.add(sp[i], i, 0);
 		}
@@ -214,10 +217,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			Statement stmt = Main.getConnection().createStatement();
 			ResultSet rs   = stmt.executeQuery(sql);
 
-			System.out.print("6 random and unique categories: ");
 			while (rs.next())
 				categories.add(rs.getString("category_name"));
-			System.out.println(categories);
 				
 		} catch (SQLException sqlex) {
 				
@@ -233,7 +234,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			
 			try {
 				
-				// update profile statistics
+				// update profile stats
 				String sql = "UPDATE Players "
 				           + "SET high_score = ?, num_games_played = ?, num_questions_correct = ? "
 				           + "WHERE player_ID = " + _players.get(i).getPlayerID();
@@ -261,6 +262,7 @@ public class GameboardWindow extends BorderPane implements Initializer {
 	// -----------------------------------------------------------------------
 	// inner class to display player username(s) and balance at top of Gameboard
 	// -----------------------------------------------------------------------
+
 	class PlayerUsernameAndScore extends HBox implements Initializer {
 		
 		public VBox[]           vBoxPresentPlayer;
@@ -311,11 +313,8 @@ public class GameboardWindow extends BorderPane implements Initializer {
 			
 			// start flashing current player
 			try {
-				
 				startFlashingAnimation();
-				
 			} catch (InterruptedException e) {
-				
 				e.printStackTrace();
 			}
 		}

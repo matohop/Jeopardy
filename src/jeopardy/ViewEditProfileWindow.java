@@ -12,9 +12,9 @@ import javafx.scene.text.Text;
 
 public class ViewEditProfileWindow extends ProfileWindow {
 	
-	public Label     lblHighScore, lblnNumGamesPlayed, lblAnsweredCorrect;
-	public Text      txtHighScore, txtNumGamesPlayed, txtAnsweredCorrect;
-	public Button    btnEdit, btnDelete;
+	public Label  lblHighScore, lblnNumGamesPlayed, lblAnsweredCorrect;
+	public Text   txtHighScore, txtNumGamesPlayed, txtAnsweredCorrect;
+	public Button btnEdit, btnDelete;
 	
 	public ViewEditProfileWindow(String _username) {
 		
@@ -38,11 +38,12 @@ public class ViewEditProfileWindow extends ProfileWindow {
 
 	public void _init(String _username) {
 		
-		// disable these nodes
+		// disable nodes
 		tfUsername.setDisable(true);
 		btnSave.setDisable(true);
 		btnDelete.setDisable(true);
 
+		// add nodes
 		this.add(lblHighScore, 0, 1);
 		this.add(txtHighScore, 1, 1);
 		this.add(lblnNumGamesPlayed, 0, 2);
@@ -52,7 +53,7 @@ public class ViewEditProfileWindow extends ProfileWindow {
 		this.add(btnEdit, 2, 4);
 		this.add(btnDelete, 2, 0);
 		
-		// query player info from database into TextFields
+		// query player info, add to TextFields
 		try {
 			
 			String sql = "SELECT user_name, high_score, num_games_played, num_questions_correct " 
@@ -63,8 +64,8 @@ public class ViewEditProfileWindow extends ProfileWindow {
 			pstmt.setString(1, _username);
 			ResultSet rs = pstmt.executeQuery();
 			
-			txtHighScore.setText("  " + Integer.toString(rs.getInt("high_score")));
-			txtNumGamesPlayed.setText("  " + Integer.toString(rs.getInt("num_games_played")));
+			txtHighScore.setText("  "       + String.format("$%,d", rs.getInt("high_score")));
+			txtNumGamesPlayed.setText("  "  + Integer.toString(rs.getInt("num_games_played")));
 			txtAnsweredCorrect.setText("  " + Integer.toString(rs.getInt("num_questions_correct")));
 			
 		} catch (SQLException e) {
@@ -72,7 +73,9 @@ public class ViewEditProfileWindow extends ProfileWindow {
 			System.out.println(e.getMessage());
 		}
 		
-		// Actions/Listeners -------------------------------------------------------------
+		// -----------------------------------------------------------------------
+		// Actions/Listeners
+		// -----------------------------------------------------------------------
 
 		// Button action - Edit
 		btnEdit.setOnAction((ActionEvent e) -> {

@@ -84,8 +84,9 @@ public class QuestionWindow extends VBox implements Initializer {
 		startTimer();
 		
 		// -----------------------------------------------------------------------
-		// When a player buzzes in
+		// What to do when a player buzzes in
 		// -----------------------------------------------------------------------
+
 		questionScene.setOnKeyPressed(e -> {
 			
 			try {
@@ -134,6 +135,7 @@ public class QuestionWindow extends VBox implements Initializer {
 		// -----------------------------------------------------------------------
 		// Button action - OK
 		// -----------------------------------------------------------------------
+
 		btnOk.setOnAction(e -> {
 			
 			timer.stop();
@@ -180,6 +182,7 @@ public class QuestionWindow extends VBox implements Initializer {
 		// -----------------------------------------------------------------------
 		// ProgessBar listener - what to do when timer runs out
 		// -----------------------------------------------------------------------
+
 		progressBar.progressProperty().addListener(e -> {
 
 			if (progressBar.getProgress() == 0) {
@@ -237,25 +240,28 @@ public class QuestionWindow extends VBox implements Initializer {
 		PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.turnIndex].setText(String.format("$%,d", p.getCurrentScore()));
 	}
 	
-	// decrement player's balance, set player's turn, update score text
+	// decrement player's balance, update score text
 	private void decrementBalance(Player p) {
 		
 		p.setCurrentScore(p.getCurrentScore() - question.getValue());
 		PlayerUsernameAndScore.txtPlayerScore[GameboardWindow.currentPlayerIndex].setText(String.format("$%,d", p.getCurrentScore()));
 	}
 	
+	// change image, remove players who've answered, set buzz in text
 	private void onKeyPressed(int idx) {
 
 		timer.stop();
 		startTimer();
+
 		imgViewQuestion.setImage(imgHappy);
 		enableNodes();
+
 		plyrsNotAnswered.remove(GameboardWindow._players.get(idx));
 		txtPlayerBuzzed.setText(GameboardWindow._players.get(idx).getUsername() + " answered!");
 		GameboardWindow.currentPlayerIndex = idx;
 	}
 	
-	// enable these nodes when a player buzzes in
+	// enable nodes when a player buzzes in
 	private void enableNodes() {
 		
 		btnOk.setDisable(false);
@@ -275,10 +281,11 @@ public class QuestionWindow extends VBox implements Initializer {
 			txtPlayerBuzzed.setVisible(true);
 	}
 	
+	// players have 12 seconds to answer
 	private void startTimer() {
 		
 		progressBar.setProgress(1);
-		timer.getKeyFrames().add(new KeyFrame(Duration.seconds(15), new KeyValue(progressBar.progressProperty(), 0)));
+		timer.getKeyFrames().add(new KeyFrame(Duration.seconds(12), new KeyValue(progressBar.progressProperty(), 0)));
 		timer.play();
 	}
 	

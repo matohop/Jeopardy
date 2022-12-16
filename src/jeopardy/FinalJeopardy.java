@@ -3,7 +3,6 @@ package jeopardy;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -45,8 +44,10 @@ public class FinalJeopardy extends VBox implements Initializer{
 
     @Override
     public void init() {
-
-        introScreen();
+    	
+    	for (int i = 0; i < GameboardWindow.numPlayers; i++) {
+    		
+    	}
     }
 
     public void introScreen(){
