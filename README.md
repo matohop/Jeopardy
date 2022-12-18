@@ -1,3 +1,3 @@
 Jeopardy for CPSC 49200
 
-/resources/gameboard.png
+blob/main/src/resources/gameboard.png
