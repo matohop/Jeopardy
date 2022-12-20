@@ -33,7 +33,8 @@ public class QuestionWindow extends VBox implements Initializer {
 	public  Timeline    timer;
 	private Scene       questionScene;
 	
-	public ArrayList<Player> plyrsNotAnswered;
+	private ArrayList<String> plyrsNotAnswered;
+	private String            username;
 	
 	QuestionWindow(Question q) {
 
@@ -48,7 +49,10 @@ public class QuestionWindow extends VBox implements Initializer {
 		progressBar      = new ProgressBar();
 		timer            = new Timeline();
 		questionScene    = new Scene(this, 750, 300);
-		plyrsNotAnswered = new ArrayList<>(GameboardWindow._players);
+		plyrsNotAnswered = new ArrayList<>();
+		
+		for (Player p: GameboardWindow._players)
+			plyrsNotAnswered.add(p.getUsername());
 		
 		txtClue.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 15));
 		txtPlayerBuzzed.setFont(Font.font("ITC Korinna", FontWeight.BOLD, 14));
@@ -91,34 +95,13 @@ public class QuestionWindow extends VBox implements Initializer {
 			
 			try {
 				
-				if (GameboardWindow.numPlayers == 1) {
+				switch(e.getCode()) {
 
-					switch(e.getCode()) {
-
-						case SHIFT: if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) { onKeyPressed(0); break; }
-						default: break;
-					}
-
-				} else if (GameboardWindow.numPlayers == 2) {
-					
-					switch(e.getCode()) {
-
-						case SHIFT: if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) { onKeyPressed(0); break; }
-						case SPACE: if (plyrsNotAnswered.contains(GameboardWindow._players.get(1))) { onKeyPressed(1); break; }
-						default: break;
-					}
-					
-				} else if (GameboardWindow.numPlayers == 3) {
-					
-					switch(e.getCode()) {
-					
-						case SHIFT:      if (plyrsNotAnswered.contains(GameboardWindow._players.get(0))) { onKeyPressed(0); break; }
-						case SPACE:      if (plyrsNotAnswered.contains(GameboardWindow._players.get(1))) { onKeyPressed(1); break; }
-						case BACK_SPACE: if (plyrsNotAnswered.contains(GameboardWindow._players.get(2))) { onKeyPressed(2); break; }
-						default: break;
-					}
-					
-				} else {}
+					case SHIFT:      if (plyrsNotAnswered.contains(GameboardWindow._players.get(0).getUsername())) { onKeyPressed(0); } break;
+					case SPACE:      if (plyrsNotAnswered.contains(GameboardWindow._players.get(1).getUsername())) { onKeyPressed(1); } break;
+					case BACK_SPACE: if (plyrsNotAnswered.contains(GameboardWindow._players.get(2).getUsername())) { onKeyPressed(2); } break;
+					default: break;
+				}
 				
 			} catch (Exception ex) {
 				
@@ -256,9 +239,10 @@ public class QuestionWindow extends VBox implements Initializer {
 
 		imgViewQuestion.setImage(imgHappy);
 		enableNodes();
-		
-		txtPlayerBuzzed.setText(GameboardWindow._players.get(idx).getUsername() + " answered!");
-		plyrsNotAnswered.remove(GameboardWindow._players.get(idx));
+
+		username = GameboardWindow._players.get(idx).getUsername();
+		txtPlayerBuzzed.setText(username + " answered!");
+		plyrsNotAnswered.remove(username);
 		GameboardWindow.currentPlayerIndex = idx;
 	}
 	
