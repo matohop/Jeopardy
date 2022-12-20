@@ -281,9 +281,9 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		PlayerUsernameAndScore() {
 			
 			_players          = new ArrayList<>();
-			vBoxPresentPlayer = new VBox[MainWindow.playersAdded.size()];
-			lblPlayerUsername = new Label[MainWindow.playersAdded.size()];
-			txtPlayerScore    = new Text[MainWindow.playersAdded.size()];
+			vBoxPresentPlayer = new VBox[MainWindow.playersQueue.size()];
+			lblPlayerUsername = new Label[MainWindow.playersQueue.size()];
+			txtPlayerScore    = new Text[MainWindow.playersQueue.size()];
 			isInProgress      = true;
 			
 			// alignment/padding/spacing
@@ -332,11 +332,11 @@ public class GameboardWindow extends BorderPane implements Initializer {
 		private void getCurrentPlayers() {
 
 			String plyr_username;
-			int    sze = MainWindow.playersAdded.size();
+			int    sze = MainWindow.playersQueue.size();
 			
 			for (int i = 0; i < sze; i++) {
 				
-				plyr_username = MainWindow.playersAdded.get(i).toString();
+				plyr_username = MainWindow.playersQueue.get(i).toString();
 				
 				// query player info from database
 				try {

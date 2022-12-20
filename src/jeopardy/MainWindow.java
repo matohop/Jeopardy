@@ -30,8 +30,8 @@ public class MainWindow extends BorderPane implements Initializer {
 	public ImageView imgViewLogo;
 	public Label     lblAvailable, lblQueue;
 	
-	public ListView<String> lvPlayers, lvPlayersAdded;
-	public static ObservableList<String> players, playersAdded;
+	public ListView<String> lvPlayers, lvPlayersQueue;
+	public static ObservableList<String> players, playersQueue;
 	
 	public MainWindow() {
 
@@ -43,16 +43,16 @@ public class MainWindow extends BorderPane implements Initializer {
 		
 		// ListViews
 		players      = FXCollections.observableArrayList();
-		playersAdded = FXCollections.observableArrayList();
+		playersQueue = FXCollections.observableArrayList();
 		populateLvPlayers();
 
 		lvPlayers      = new ListView<>(players);
-		lvPlayersAdded = new ListView<>();
+		lvPlayersQueue = new ListView<>();
 		lvPlayers.getSelectionModel().selectFirst();
 		lvPlayers.setMaxHeight(100);
-		lvPlayersAdded.setMaxHeight(100);
+		lvPlayersQueue.setMaxHeight(100);
 		lvPlayers.setMaxWidth(130);
-		lvPlayersAdded.setMaxWidth(130);
+		lvPlayersQueue.setMaxWidth(130);
 		
 		// Buttons
 		btnCreateProfile   = new Button("Create Profile");
@@ -100,7 +100,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		// add children to VBoxes
 		vBoxLvButtons.getChildren().addAll(btnLvAdd, btnLvRemove);
 		vBoxAvailable.getChildren().addAll(lblAvailable, lvPlayers);
-		vBoxQueue.getChildren().addAll(lblQueue, lvPlayersAdded);
+		vBoxQueue.getChildren().addAll(lblQueue, lvPlayersQueue);
 		
 		// add ListViews and VBoxes to HBox
 		hBoxCenter.getChildren().addAll(vBoxAvailable, vBoxLvButtons, vBoxQueue);
@@ -128,7 +128,7 @@ public class MainWindow extends BorderPane implements Initializer {
 		// Button action - Start Game
 		btnStartGame.setOnAction((ActionEvent e) -> {
 			
-			if (playersAdded.size() !=  0) {
+			if (playersQueue.size() !=  0) {
 				
 				Main.getPrimaryStage().setScene(new Scene(new GameboardWindow(), 741, 795));
 				Main.getPrimaryStage().setTitle("Gameboard");
@@ -153,15 +153,10 @@ public class MainWindow extends BorderPane implements Initializer {
 			// get the player selected
 			String player = lvPlayers.getSelectionModel().getSelectedItem();
 			
-			if (player != null && playersAdded.size() < 3) {
-				
-				// add player to the playersAdded ArrayList
-				playersAdded.add(player);
-				
-				// add player to ListView of players added
-				lvPlayersAdded.setItems(playersAdded);
-				
-				// remove player from ListView players
+			if (player != null && playersQueue.size() < 3) {
+
+				playersQueue.add(player);
+				lvPlayersQueue.setItems(playersQueue);
 				lvPlayers.getItems().remove(player);
 			}
 		});
@@ -170,18 +165,13 @@ public class MainWindow extends BorderPane implements Initializer {
 		btnLvRemove.setOnAction((ActionEvent e) -> {
 			
 			// get the player selected
-			String player = lvPlayersAdded.getSelectionModel().getSelectedItem();
+			String player = lvPlayersQueue.getSelectionModel().getSelectedItem();
 			
 			if (player != null) {
-				
-				// add player to the players ArrayList
+
 				players.add(player);
-				
-				// add player to ListView of players
 				lvPlayers.setItems(players);
-				
-				// remove player from ListView players added
-				lvPlayersAdded.getItems().remove(player);
+				lvPlayersQueue.getItems().remove(player);
 			}
 		});
 		
