@@ -50,8 +50,8 @@ public class WagerWindow extends GridPane implements Initializer {
 			
 			try {
 				
+				// get wager amount
 				int amt = Integer.parseInt(tfWagerAmount.getText());
-				
 				if (amt >= 200 && amt <= 1000) {
 					
 					wagerAmount = amt;
@@ -65,7 +65,6 @@ public class WagerWindow extends GridPane implements Initializer {
 				
 				System.out.println(ex.getMessage());
 			}
-			
 		});
 		
 		// fire OK Button if Enter key is pressed
