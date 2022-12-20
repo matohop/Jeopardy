@@ -103,7 +103,7 @@ public class QuestionWindow extends VBox implements Initializer {
 					default: break;
 				}
 				
-			} catch (Exception ex) {
+			} catch (IndexOutOfBoundsException ex) {
 				
 				System.out.println(ex.getMessage());
 			}
