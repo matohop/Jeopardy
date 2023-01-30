@@ -270,7 +270,7 @@ public class QuestionWindow extends VBox implements Initializer {
 	private void startTimer() {
 		
 		progressBar.setProgress(1);
-		timer.getKeyFrames().add(new KeyFrame(Duration.seconds(12), new KeyValue(progressBar.progressProperty(), 0)));
+		timer.getKeyFrames().add(new KeyFrame(Duration.seconds(15), new KeyValue(progressBar.progressProperty(), 0)));
 		timer.play();
 	}
 	
